@@ -30,7 +30,7 @@ public class PersonaRestController {
         return new ResponseBuilder().responseWithOperation(
                 // Try this
                 personaService::findAll,
-                ResponseMessages.PERSONA_DELETED_SUCCESS,
+                ResponseMessages.PERSONA_LIST_SUCCESS,
                 HttpStatus.OK,
                 // Or else
                 ResponseMessages.PERSONA_LIST_ERROR,
