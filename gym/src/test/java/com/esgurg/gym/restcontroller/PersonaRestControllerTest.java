@@ -25,6 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class PersonaRestControllerTest {
 
+    // ESTAS RUTAS HAN SIDO IGNORADAS POR EL GITIGNORE, POR LO QUE NO LAS ENCONTRARÁS EN EL REPOSITORIO
     public final String PERSONA_URL = "media/persona.json";
     public final String PERSONA_UPDATE_URL = "media/persona_update.json";
 
