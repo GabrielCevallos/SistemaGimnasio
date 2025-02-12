@@ -90,7 +90,12 @@ public class PersonaRestController {
     @GetMapping("/find/{id}")
     public ResponseEntity<Map<String, Object>> findPersona(@PathVariable Long id) {
         return new ResponseBuilder().responseWithOperation(
-                () -> personaService.findById(id),
+                () -> {
+                    PersonaDTO persona = new PersonaDTO(
+                            personaService.findById(id).orElseThrow(() -> new RuntimeException(ResponseMessages.PERSONA_NOT_FOUND))
+                    );
+                    return persona.getPersonaInfo();
+                },
                 ResponseMessages.PERSONA_FOUND_SUCCESS,
                 HttpStatus.OK,
                 ResponseMessages.PERSONA_NOT_FOUND,
@@ -101,7 +106,13 @@ public class PersonaRestController {
     @GetMapping("/find/document/{document}")
     public ResponseEntity<Map<String, Object>> findPersonaByDocument(@PathVariable String document) {
         return new ResponseBuilder().responseWithOperation(
-                () -> personaService.findByNumeroDocumento(document),
+                () -> {
+                    PersonaDTO persona = new PersonaDTO(
+                            personaService.findByNumeroDocumento(document)
+                                    .orElseThrow(() -> new RuntimeException(ResponseMessages.PERSONA_NOT_FOUND))
+                    );
+                    return persona.getPersonaInfo();
+                },
                 ResponseMessages.PERSONA_FOUND_SUCCESS,
                 HttpStatus.OK,
                 ResponseMessages.PERSONA_NOT_FOUND,
