@@ -6,10 +6,12 @@ import com.esgurg.gym.entity.enumeration.TipoDocumento;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MockMvcBuilder;
 import org.springframework.test.web.servlet.assertj.MockMvcTester;
 
 import java.io.BufferedReader;
@@ -34,17 +36,18 @@ public class PersonaRestControllerTest {
 
     Gson gson = new GsonBuilder()
             .setPrettyPrinting()
+            // Estos métodos son para serializar y deserializar LocalDate
             .registerTypeAdapter(LocalDate.class, new JsonSerializer<LocalDate>() {
-        @Override
-        public JsonElement serialize(LocalDate src, Type typeOfSrc, com.google.gson.JsonSerializationContext context) {
-            return new JsonPrimitive(src.format(DateTimeFormatter.ISO_LOCAL_DATE));
-        }
-    })
+                @Override
+                public JsonElement serialize(LocalDate src, Type typeOfSrc, com.google.gson.JsonSerializationContext context) {
+                    return new JsonPrimitive(src.format(DateTimeFormatter.ISO_LOCAL_DATE));
+                }
+            })
             .registerTypeAdapter(LocalDate.class, new JsonDeserializer<LocalDate>() {
-                    @Override
-                    public LocalDate deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-                        return LocalDate.parse(json.getAsString(), DateTimeFormatter.ISO_LOCAL_DATE);
-                    }
+                @Override
+                public LocalDate deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+                    return LocalDate.parse(json.getAsString(), DateTimeFormatter.ISO_LOCAL_DATE);
+                }
             })
             .create();
 
@@ -96,23 +99,6 @@ public class PersonaRestControllerTest {
     }
 
     @Test
-    public void testSavePersona() throws Exception {
-        List<PersonaDTO> personas = gson.fromJson(readFile(PERSONA_URL), new TypeToken<List<PersonaDTO>>(){}.getType());
-        for (PersonaDTO persona : personas) {
-            mockMvc.perform(
-                    MockMvcTester.create(mockMvc).post()
-                            .uri("/api/persona")
-                            .contentType("application/json")
-                            .content(gson.toJson(persona))
-            );/*.andExpect(status().isOk())
-                    .andDo(result -> {
-                        String content = result.getResponse().getContentAsString();
-                        jsonPrettyPrint(content);
-                    });*/
-        }
-    }
-
-    @Test
     public void testUpdatePersona() throws Exception {
         List<PersonaDTO> personas = gson.fromJson(readFile(PERSONA_UPDATE_URL), new TypeToken<List<PersonaDTO>>(){}.getType());
         for (PersonaDTO persona : personas) {
@@ -121,36 +107,11 @@ public class PersonaRestControllerTest {
                             .uri("/api/persona")
                             .contentType("application/json")
                             .content(gson.toJson(persona))
-            );/*.andExpect(status().isOk())
+            ).andExpect(status().isOk())
                     .andDo(result -> {
                         String content = result.getResponse().getContentAsString();
                         jsonPrettyPrint(content);
-                    });*/
-        }
-    }
-
-    @Test
-    public void testDeletePersona() throws Exception {
-        final long id = 6L;
-        /*mockMvc.perform(
-                MockMvcTester.create(mockMvc).delete()
-                        .uri("/api/persona/" + id)
-                        .contentType("application/json")
-        ).andExpect(status().isOk())
-                .andDo(result -> {
-                    String content = result.getResponse().getContentAsString();
-                    jsonPrettyPrint(content);
-                });*/
-        for (int i = 1; i <= 6; i++) {
-            mockMvc.perform(
-                    MockMvcTester.create(mockMvc).delete()
-                            .uri("/api/persona/" + i)
-                            .contentType("application/json")
-            );/*.andExpect(status().isOk())
-                    .andDo(result -> {
-                        String content = result.getResponse().getContentAsString();
-                        jsonPrettyPrint(content);
-                    });*/
+                    });
         }
     }
 
@@ -196,5 +157,4 @@ public class PersonaRestControllerTest {
                     jsonPrettyPrint(content);
                 });
     }
-
 }

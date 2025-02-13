@@ -5,6 +5,7 @@ import com.esgurg.gym.entity.enumeration.TipoDocumento;
 import com.esgurg.gym.service.PersonaService;
 import com.esgurg.gym.utils.ResponseBuilder;
 import com.esgurg.gym.utils.ResponseMessages;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -14,15 +15,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/persona")
 public class PersonaRestController {
 
     private final PersonaService personaService;
-
-    // DEPENDENCY INJECTION
-    public PersonaRestController(PersonaService personaService) {
-        this.personaService = personaService;
-    }
 
     //ENDPOINTS
     @GetMapping
@@ -38,51 +35,16 @@ public class PersonaRestController {
         );
     }
 
-    @PostMapping
-    public ResponseEntity<Map<String,Object>> savePersona(@Validated @RequestBody PersonaDTO persona) {
-        return new ResponseBuilder().responseWithOperation(
-                () -> {
-                    personaService.save(persona);
-                    return new PersonaDTO(
-                            personaService.findByNumeroDocumento(persona.getNumeroDocumento())
-                                    .orElseThrow(() -> new RuntimeException(ResponseMessages.PERSONA_NOT_FOUND))
-                    ).getPersonaInfo();
-                },
-                ResponseMessages.PERSONA_SAVED_SUCCESS,
-                HttpStatus.OK,
-                ResponseMessages.INTERNAL_SERVER_ERROR,
-                HttpStatus.INTERNAL_SERVER_ERROR
-        );
-    }
-
     @PatchMapping
     public ResponseEntity<Map<String, Object>> updatePersona(@RequestBody PersonaDTO persona) {
         return new ResponseBuilder().responseWithOperation(
                 () -> {
                     personaService.update(persona);
-                    return persona.getPersonaInfo();
+                    return persona.getEssentialInfo();
                 },
                 ResponseMessages.PERSONA_UPDATED_SUCCESS,
                 HttpStatus.OK,
                 ResponseMessages.PERSONA_LIST_ERROR,
-                HttpStatus.INTERNAL_SERVER_ERROR
-        );
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> deletePersona(@PathVariable Long id) {
-        return new ResponseBuilder().responseWithOperation(
-                () -> {
-                    PersonaDTO personaDTO = new PersonaDTO(
-                            personaService.findById(id)
-                                    .orElseThrow(() -> new RuntimeException(ResponseMessages.PERSONA_NOT_FOUND))
-                    );
-                    personaService.delete(id);
-                    return personaDTO.getPersonaInfo();
-                },
-                ResponseMessages.PERSONA_DELETED_SUCCESS,
-                HttpStatus.OK,
-                ResponseMessages.INTERNAL_SERVER_ERROR,
                 HttpStatus.INTERNAL_SERVER_ERROR
         );
     }
@@ -94,7 +56,7 @@ public class PersonaRestController {
                     PersonaDTO persona = new PersonaDTO(
                             personaService.findById(id).orElseThrow(() -> new RuntimeException(ResponseMessages.PERSONA_NOT_FOUND))
                     );
-                    return persona.getPersonaInfo();
+                    return persona.getEssentialInfo();
                 },
                 ResponseMessages.PERSONA_FOUND_SUCCESS,
                 HttpStatus.OK,
@@ -111,7 +73,7 @@ public class PersonaRestController {
                             personaService.findByNumeroDocumento(document)
                                     .orElseThrow(() -> new RuntimeException(ResponseMessages.PERSONA_NOT_FOUND))
                     );
-                    return persona.getPersonaInfo();
+                    return persona.getEssentialInfo();
                 },
                 ResponseMessages.PERSONA_FOUND_SUCCESS,
                 HttpStatus.OK,

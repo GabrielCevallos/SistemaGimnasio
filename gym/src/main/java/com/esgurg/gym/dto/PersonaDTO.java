@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.Map;
 
 
 @Data
@@ -60,22 +61,36 @@ public class PersonaDTO {
         this.tipoDocumento = persona.getTipoDocumento();
         this.fechaNacimiento = persona.getFechaNacimiento();
         this.numeroDocumento = persona.getNumeroDocumento();
+        this.genero = persona.getGenero();
     }
 
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public class PersonaInfo {
-        private Long personaId;
-        private String nombreCompleto;
-        private String documento;
-    }
-
-    public PersonaInfo getPersonaInfo() {
-        return new PersonaInfo(
-                personaId,
-                nombre + " " + apellido,
-                tipoDocumento.getTipoDocumento() + " " + numeroDocumento
+    public Map<String, Object> getEssentialInfo() {
+        return Map.of(
+                "personaId", this.personaId,
+                "nombre", this.nombre + " " + this.apellido,
+                "documentoIdentidad",  this.tipoDocumento + " " + this.numeroDocumento
         );
+    }
+
+    public Persona setValuesTo(Persona persona) {
+        if (this.personaId != null)
+            persona.setPersonaId(this.personaId);
+        if (this.nombre != null)
+            persona.setNombre(this.nombre);
+        if (this.apellido != null)
+            persona.setApellido(this.apellido);
+        if (this.direccion != null)
+            persona.setDireccion(this.direccion);
+        if (this.telefonoCelular != null)
+            persona.setTelefonoCelular(this.telefonoCelular);
+        if (this.tipoDocumento != null)
+            persona.setTipoDocumento(this.tipoDocumento);
+        if (this.fechaNacimiento != null)
+            persona.setFechaNacimiento(this.fechaNacimiento);
+        if (this.numeroDocumento != null)
+            persona.setNumeroDocumento(this.numeroDocumento);
+        if (this.genero != null)
+            persona.setGenero(this.genero);
+        return persona;
     }
 }

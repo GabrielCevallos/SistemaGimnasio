@@ -11,7 +11,6 @@ import java.util.Optional;
 public interface PersonaService {
     void save(PersonaDTO persona);
     void update(PersonaDTO persona);
-    void delete(Long personaId);
     List<Persona> findAll();
     Optional<Persona> findById(Long personaId);
     Optional<Persona> findByNumeroDocumento(String numeroDocumento);

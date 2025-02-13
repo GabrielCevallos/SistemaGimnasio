@@ -7,6 +7,7 @@ import com.esgurg.gym.entity.enumeration.Genero;
 import com.esgurg.gym.repository.PersonaRepository;
 import com.esgurg.gym.entity.enumeration.TipoDocumento;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,26 +15,13 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class PersonaServiceImpl implements PersonaService {
 
     private final PersonaRepository personaRepository;
 
-    public PersonaServiceImpl(PersonaRepository personaRepository) {
-        this.personaRepository = personaRepository;
-    }
-
     public void save(PersonaDTO persona) {
-        Persona personaToSave = new Persona(
-                null, // Id is auto-generated
-                persona.getNombre(),
-                persona.getApellido(),
-                persona.getFechaNacimiento(),
-                persona.getTelefonoCelular(),
-                persona.getDireccion(),
-                persona.getTipoDocumento(),
-                persona.getNumeroDocumento(),
-                persona.getGenero()
-        );
+        Persona personaToSave = persona.setValuesTo(new Persona());
 
         Validator.validateDoc(personaToSave);
 
@@ -44,42 +32,12 @@ public class PersonaServiceImpl implements PersonaService {
         Persona personaToUpdate = personaRepository.findById(persona.getPersonaId()).orElseThrow(
                 () -> new RuntimeException("Persona no encontrada")
         );
-        // Set the new values only if they are not null
-        personaToUpdate.setNombre(
-                (persona.getNombre() != null)
-                        ? persona.getNombre() : personaToUpdate.getNombre()
-        );
-        personaToUpdate.setApellido(
-                (persona.getApellido() != null)
-                        ? persona.getApellido() : personaToUpdate.getApellido()
-        );
-        personaToUpdate.setTipoDocumento(
-                (persona.getTipoDocumento() != null)
-                        ? persona.getTipoDocumento() : personaToUpdate.getTipoDocumento()
-        );
-        personaToUpdate.setNumeroDocumento(
-                (persona.getNumeroDocumento() != null)
-                        ? persona.getNumeroDocumento() : personaToUpdate.getNumeroDocumento()
-        );
-        personaToUpdate.setTelefonoCelular(
-                (persona.getTelefonoCelular() != null)
-                        ? persona.getTelefonoCelular() : personaToUpdate.getTelefonoCelular())
-        ;
-        personaToUpdate.setDireccion(
-                (persona.getDireccion() != null)
-                        ? persona.getDireccion() : personaToUpdate.getDireccion()
-        );
-
-        System.out.println(personaToUpdate);
+        personaToUpdate = persona.setValuesTo(personaToUpdate);
 
         Validator.validateDoc(personaToUpdate);
 
         @Valid Persona personaValidated = personaToUpdate;
         personaRepository.save(personaValidated);
-    }
-
-    public void delete(Long personaId) {
-        personaRepository.deleteById(personaId);
     }
 
     public List<Persona> findAll() {
