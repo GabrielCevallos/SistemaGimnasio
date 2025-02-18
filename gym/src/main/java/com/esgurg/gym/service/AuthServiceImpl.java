@@ -27,7 +27,10 @@ public class AuthServiceImpl implements AuthService {
         String contrasena = usuario.getContrasena();
         usuario.setContrasena(passwordEncoder.encode(contrasena));
         usuarioService.save(usuario);
-        Usuario user = usuarioService.findByEmail(usuario.getCorreoElectronico()).get();
+
+        Usuario user = usuarioService.findByEmail(usuario.getCorreoElectronico())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
         String token = jwtService.createToken(user);
         String refreshToken = jwtService.createRefreshToken(user);
         saveUserToken(user, token);

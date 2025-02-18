@@ -49,7 +49,7 @@ public class JwtServiceImpl implements JwtService {
     @Override
     public Date extractExpiration(String token) {
         return Jwts.parser()
-                .setSigningKey(getSignInKey())
+                .verifyWith(getSignInKey())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload()

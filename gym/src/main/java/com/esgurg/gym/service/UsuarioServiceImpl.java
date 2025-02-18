@@ -5,6 +5,7 @@ import com.esgurg.gym.dto.PersonaDTO;
 import com.esgurg.gym.dto.RolDTO;
 import com.esgurg.gym.dto.UsuarioDTO;
 import com.esgurg.gym.entity.Usuario;
+import com.esgurg.gym.entity.security.Rol;
 import com.esgurg.gym.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,9 +25,12 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public void save(UsuarioDTO usuario) {
         Usuario usuarioToSave = usuario.setValuesTo(new Usuario());
-        if (usuario.getRol().getRolId() == null) {
-            rolService.save(new RolDTO(usuario.getRol()));
-            usuarioToSave.setRol(rolService.findByNombre(usuario.getRol().getNombre()).get());
+        if (usuario.getRol().getNombre() != null) {
+            final String rolName = usuario.getRol().getNombre();
+            if (rolService.findByNombre(rolName).isEmpty()) {
+                rolService.save(new RolDTO(usuario.getRol()));
+            }
+            usuarioToSave.setRol(rolService.findByNombre(rolName).get());
         }
         if (usuario.getPerfil().getPerfilId() == null) {
             perfilService.save(new PerfilDTO(usuario.getPerfil()));

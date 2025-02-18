@@ -32,7 +32,7 @@ public class RolServiceImpl implements RolService {
 
     @Override
     public Optional<Rol> findByNombre(String nombre) {
-        return Optional.of(rolRepository.findByNombre(nombre));
+        return rolRepository.findByNombre(nombre);
     }
 
 
