@@ -5,6 +5,7 @@ import com.esgurg.gym.entity.security.Token;
 import com.esgurg.gym.repository.TokenRepository;
 import com.esgurg.gym.service.JwtService;
 import com.esgurg.gym.service.UsuarioService;
+import com.google.gson.Gson;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.Optional;
 
 @Component
@@ -38,6 +40,29 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
+        try {
+            useFilter(request, response, filterChain);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            String responseBody = new Gson().toJson(
+                Map.of(
+                        "error", "Unauthorized",
+                        "status", HttpServletResponse.SC_UNAUTHORIZED,
+                        "message", e.getMessage()
+                )
+            );
+
+            response.getWriter().write(responseBody);
+        }
+    }
+
+    public void useFilter(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain) throws IOException, ServletException
+    {
         if (request.getServletPath().contains("/auth")) {
             filterChain.doFilter(request, response);
             return;

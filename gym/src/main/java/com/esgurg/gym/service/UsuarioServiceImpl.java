@@ -5,7 +5,6 @@ import com.esgurg.gym.dto.PersonaDTO;
 import com.esgurg.gym.dto.RolDTO;
 import com.esgurg.gym.dto.UsuarioDTO;
 import com.esgurg.gym.entity.Usuario;
-import com.esgurg.gym.entity.security.Rol;
 import com.esgurg.gym.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

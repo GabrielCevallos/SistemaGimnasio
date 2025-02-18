@@ -7,4 +7,5 @@ public interface AuthService {
     TokenResponseDTO register(UsuarioDTO usuario);
     TokenResponseDTO login(UsuarioDTO usuario);
     TokenResponseDTO refresh(final String authHeader);
+    UsuarioDTO userAuthenticated(final String authHeader);
 }

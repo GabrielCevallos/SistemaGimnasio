@@ -28,6 +28,7 @@ public class AppConfig {
             return User.builder()
                     .username(usuario.getCorreoElectronico())
                     .password(usuario.getContrasena())
+                    .roles(usuario.getRol().getNombre())
                     .build();
         };
     }

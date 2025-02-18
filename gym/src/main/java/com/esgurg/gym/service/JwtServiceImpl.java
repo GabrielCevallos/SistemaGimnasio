@@ -11,8 +11,6 @@ import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.Map;
 
-import static io.jsonwebtoken.Jwts.SIG.HS384;
-
 @Service
 public class JwtServiceImpl implements JwtService {
 

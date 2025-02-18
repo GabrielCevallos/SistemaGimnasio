@@ -23,6 +23,7 @@ public class AuthServiceImpl implements AuthService {
     private final TokenRepository tokenRepository;
     private final AuthenticationManager authenticationManager;
 
+    @Override
     public TokenResponseDTO register(UsuarioDTO usuario) {
         String contrasena = usuario.getContrasena();
         usuario.setContrasena(passwordEncoder.encode(contrasena));
@@ -37,6 +38,7 @@ public class AuthServiceImpl implements AuthService {
         return new TokenResponseDTO(token, refreshToken);
     }
 
+    @Override
     public TokenResponseDTO login(UsuarioDTO usuario) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -54,6 +56,7 @@ public class AuthServiceImpl implements AuthService {
         return new TokenResponseDTO(token, RefreshToken);
     }
 
+    @Override
     public TokenResponseDTO refresh(final String authHeader) {
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             throw new RuntimeException("Invalid Bearer Token");
@@ -77,6 +80,29 @@ public class AuthServiceImpl implements AuthService {
         revokeAllUserTokens(usuario);
         saveUserToken(usuario, accesToken);
         return new TokenResponseDTO(accesToken, refreshToken);
+    }
+
+    @Override
+    public UsuarioDTO userAuthenticated(final String authHeader) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            throw new RuntimeException("Invalid Bearer Token");
+        }
+
+        final String token = authHeader.substring(7);
+        final String userEmail = jwtService.extractUserEmail(token);
+
+        if (userEmail == null) {
+            throw new RuntimeException("Invalid Token");
+        }
+
+        final Usuario usuario = usuarioService.findByEmail(userEmail)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        if (!jwtService.isValid(token, usuario)) {
+            throw new RuntimeException("Invalid Token");
+        }
+
+        return new UsuarioDTO(usuario);
     }
 
     public void saveUserToken(Usuario usuario, String jwtToken) {
