@@ -50,7 +50,7 @@ public class PersonaRestController {
         );
     }
 
-    @GetMapping("/find/{id}")
+    @GetMapping("/find/id/{id}")
     public ResponseEntity<Map<String, Object>> findPersona(@PathVariable Long id) {
         return new ResponseBuilder().responseWithOperation(
                 () -> {

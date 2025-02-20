@@ -61,4 +61,15 @@ public class SuscripcionRestController {
         );
     }
 
+    @GetMapping("/find/persona/{numeroDocumento}")
+    public ResponseEntity<Map<String, Object>> findSuscripcionByPersona(@PathVariable String numeroDocumento) {
+        return new ResponseBuilder().responseWithOperation(
+                () -> suscripcionService.findByPersonaNumeroDocumento(numeroDocumento),
+                "Suscripciones encontradas",
+                HttpStatus.OK,
+                "Error al obtener la lista de suscripciones",
+                HttpStatus.INTERNAL_SERVER_ERROR
+        );
+    }
+
 }

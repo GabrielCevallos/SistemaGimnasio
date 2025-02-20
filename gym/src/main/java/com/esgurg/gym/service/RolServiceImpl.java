@@ -35,5 +35,4 @@ public class RolServiceImpl implements RolService {
         return rolRepository.findByNombre(nombre);
     }
 
-
 }

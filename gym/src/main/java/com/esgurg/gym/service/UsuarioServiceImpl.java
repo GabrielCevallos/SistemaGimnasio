@@ -1,14 +1,18 @@
 package com.esgurg.gym.service;
 
-import com.esgurg.gym.dto.PerfilDTO;
-import com.esgurg.gym.dto.PersonaDTO;
-import com.esgurg.gym.dto.RolDTO;
-import com.esgurg.gym.dto.UsuarioDTO;
+import com.esgurg.gym.dto.*;
+import com.esgurg.gym.entity.Perfil;
+import com.esgurg.gym.entity.Persona;
+import com.esgurg.gym.entity.Suscripcion;
 import com.esgurg.gym.entity.Usuario;
+import com.esgurg.gym.entity.security.Rol;
 import com.esgurg.gym.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,27 +21,51 @@ import java.util.Optional;
 public class UsuarioServiceImpl implements UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final SuscripcionService suscripcionService;
     private final PersonaService personaService;
     private final RolService rolService;
     private final PerfilService perfilService;
 
     @Override
+    public void saveCreatingPerfil(UsuarioDTO usuarioDTO) {
+        final int number = (int)Math.round(Math.random()*1000);
+        usuarioDTO.setPerfil(
+                new Perfil(
+                        null,
+                        usuarioDTO.getPersona().getNombre().toLowerCase() + number,
+                        "Ingrese aquí los objetivos que desea alcanzar",
+                        LocalDate.now(),
+                        "user.png"
+                )
+        );
+        save(usuarioDTO);
+    }
+
+    @Override
     public void save(UsuarioDTO usuario) {
         Usuario usuarioToSave = usuario.setValuesTo(new Usuario());
+
         if (usuario.getRol().getNombre() != null) {
-            final String rolName = usuario.getRol().getNombre();
+            String rolName = usuario.getRol().getNombre();
             if (rolService.findByNombre(rolName).isEmpty()) {
                 rolService.save(new RolDTO(usuario.getRol()));
             }
             usuarioToSave.setRol(rolService.findByNombre(rolName).get());
         }
+
         if (usuario.getPerfil().getPerfilId() == null) {
             perfilService.save(new PerfilDTO(usuario.getPerfil()));
-            usuarioToSave.setPerfil(perfilService.findByNickname(usuario.getPerfil().getNickname()).get());
+            Perfil perfil = perfilService.findByNickname(usuario.getPerfil().getNickname())
+                    .orElseThrow(() -> new RuntimeException("Perfil no encontrado"));
+            usuarioToSave.setPerfil(perfil);
         }
+
         if (usuario.getPersona().getPersonaId() == null) {
             personaService.save(new PersonaDTO(usuario.getPersona()));
-            usuarioToSave.setPersona(personaService.findByNumeroDocumento(usuario.getPersona().getNumeroDocumento()).get());
+            Persona persona = personaService.findByNumeroDocumento(usuario.getPersona().getNumeroDocumento())
+                    .orElseThrow(() -> new RuntimeException("Persona no encontrada"));
+            usuarioToSave.setPersona(persona);
+            suscripcionService.saveSuscripcionOf(persona);
         }
         usuarioRepository.save(usuarioToSave);
     }
@@ -66,11 +94,20 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public void changePassword(String email, String password) {
+    public void changePassword(ChangePasswordDTO changePasswordDTO) {
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String email = changePasswordDTO.getEmail();
+        String oldPassword = changePasswordDTO.getOldPassword();
+        String newPassword = changePasswordDTO.getNewPassword();
+
         Usuario usuario = usuarioRepository.findByCorreoElectronico(email).orElseThrow(
                 () -> new RuntimeException("Usuario no encontrado")
         );
-        usuario.setContrasena(password);
+        if (!passwordEncoder.matches(oldPassword, usuario.getContrasena())) {
+            throw new RuntimeException("Contraseña incorrecta");
+        }
+
+        usuario.setContrasena(passwordEncoder.encode(newPassword));
         usuarioRepository.save(usuario);
     }
 
@@ -86,6 +123,14 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public Optional<Usuario> findById(Long id) {
         return usuarioRepository.findById(id);
+    }
+
+    @Override
+    public List<Usuario> findByRole(String role) {
+        return usuarioRepository.findByRol(
+                rolService.findByNombre(role)
+                        .orElseThrow(() -> new RuntimeException("Rol no encontrado"))
+        );
     }
 
 }

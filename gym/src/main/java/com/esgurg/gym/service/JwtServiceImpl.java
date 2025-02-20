@@ -71,7 +71,12 @@ public class JwtServiceImpl implements JwtService {
     }
 
     private SecretKey getSignInKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+        byte[] keyBytes = null;
+        try {
+            keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+        } catch (Exception e) {
+            throw new RuntimeException("Error al intentar decodificar la clave secreta");
+        }
         return Keys.hmacShaKeyFor(keyBytes);
     }
 

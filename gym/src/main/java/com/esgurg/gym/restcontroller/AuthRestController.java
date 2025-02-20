@@ -24,9 +24,11 @@ public class AuthRestController {
 
     private final AuthService authService;
 
-    @PostMapping("/register")
-    public ResponseEntity<TokenResponseDTO> register(@RequestBody UsuarioDTO usuario) {
-        return ResponseEntity.ok(authService.register(usuario));
+    @PostMapping("/register/{creatingPerfil}")
+    public ResponseEntity<TokenResponseDTO> register(@RequestBody UsuarioDTO usuario,
+                                                     @PathVariable Boolean creatingPerfil)
+    {
+        return ResponseEntity.ok(authService.register(usuario, creatingPerfil));
     }
 
     @PostMapping("/login")

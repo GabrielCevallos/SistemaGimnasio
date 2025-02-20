@@ -1,5 +1,6 @@
 package com.esgurg.gym.restcontroller;
 
+import com.esgurg.gym.dto.ChangePasswordDTO;
 import com.esgurg.gym.dto.UsuarioDTO;
 import com.esgurg.gym.service.UsuarioService;
 import com.esgurg.gym.utils.ResponseBuilder;
@@ -28,8 +29,8 @@ public class UsuarioRestControler {
         );
     }
 
-    @GetMapping("/find/{id}")
-    public ResponseEntity<Map<String, Object>> findUsuario(Long id) {
+    @GetMapping("/find/id/{id}")
+    public ResponseEntity<Map<String, Object>> findUsuario(@PathVariable Long id) {
         return new ResponseBuilder().responseWithOperation(
                 () -> {
                     return usuarioService.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
@@ -37,6 +38,32 @@ public class UsuarioRestControler {
                 "Usuario encontrado",
                 HttpStatus.OK,
                 "Error al intentar encontrar el usuario",
+                HttpStatus.INTERNAL_SERVER_ERROR
+        );
+    }
+
+    @GetMapping("/find/email/{email}")
+    public ResponseEntity<Map<String, Object>> findUsuario(String email) {
+        return new ResponseBuilder().responseWithOperation(
+                () -> {
+                    return usuarioService.findByEmail(email).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                },
+                "Usuario encontrado",
+                HttpStatus.OK,
+                "Error al intentar encontrar el usuario",
+                HttpStatus.INTERNAL_SERVER_ERROR
+        );
+    }
+
+    @GetMapping("/find/role/{role}")
+    public ResponseEntity<Map<String, Object>> findUsuarioByRole(@PathVariable String role) {
+        return new ResponseBuilder().responseWithOperation(
+                () -> {
+                    return usuarioService.findByRole(role);
+                },
+                "Usuarios encontrados",
+                HttpStatus.OK,
+                "Error al intentar encontrar los usuarios",
                 HttpStatus.INTERNAL_SERVER_ERROR
         );
     }
@@ -65,6 +92,20 @@ public class UsuarioRestControler {
                 "Usuario dado de baja",
                 HttpStatus.OK,
                 "Error al intentar eliminar el usuario",
+                HttpStatus.INTERNAL_SERVER_ERROR
+        );
+    }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<Map<String, Object>> changePassword(@RequestBody ChangePasswordDTO changePasswordDTO) {
+        return new ResponseBuilder().responseWithOperation(
+                () -> {
+                    usuarioService.changePassword(changePasswordDTO);
+                    return true;
+                },
+                "Contraseña cambiada",
+                HttpStatus.OK,
+                "Error al intentar cambiar la contraseña",
                 HttpStatus.INTERNAL_SERVER_ERROR
         );
     }

@@ -24,10 +24,15 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
 
     @Override
-    public TokenResponseDTO register(UsuarioDTO usuario) {
+    public TokenResponseDTO register(UsuarioDTO usuario, Boolean creatingPerfil) {
         String contrasena = usuario.getContrasena();
         usuario.setContrasena(passwordEncoder.encode(contrasena));
-        usuarioService.save(usuario);
+
+        if (creatingPerfil) {
+            usuarioService.saveCreatingPerfil(usuario);
+        } else {
+            usuarioService.save(usuario);
+        }
 
         Usuario user = usuarioService.findByEmail(usuario.getCorreoElectronico())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));

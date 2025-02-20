@@ -1,6 +1,7 @@
 package com.esgurg.gym.service;
 
 import com.esgurg.gym.dto.SuscripcionDTO;
+import com.esgurg.gym.entity.Persona;
 import com.esgurg.gym.entity.Suscripcion;
 import com.esgurg.gym.entity.enumeration.TipoSuscripcion;
 import com.esgurg.gym.repository.SuscripcionRepository;
@@ -17,9 +18,27 @@ public class SuscripcionServiceImpl implements SuscripcionService {
 
     private final SuscripcionRepository suscripcionRepository;
 
+    @Override
     public void save(SuscripcionDTO suscripcionDTO) {
         Suscripcion suscripcionToSave = suscripcionDTO.setValuesTo(new Suscripcion());
         suscripcionRepository.save(suscripcionToSave);
+    }
+
+    @Override
+    public void saveSuscripcionOf(Persona persona) {
+        Suscripcion suscripcion = new Suscripcion();
+        suscripcion.setActiva(true);
+        suscripcion.setFechaInicio(LocalDate.now());
+        suscripcion.setNombre(TipoSuscripcion.DIARIA);
+        int DAYS_OF_TRIAL = 1;
+        suscripcion.setFechaExpiracion(LocalDate.now().plusDays(DAYS_OF_TRIAL));
+        float PRICE_OF_TRIAL = TipoSuscripcion.DIARIA.getPrecio();
+        suscripcion.setPrecio(PRICE_OF_TRIAL);
+        LocalDate expiration = TipoSuscripcion.getExpirationDateOf(LocalDate.now(), TipoSuscripcion.DIARIA);
+        suscripcion.setFechaExpiracion(expiration);
+        suscripcion.setPersona(persona);
+
+        suscripcionRepository.save(suscripcion);
     }
 
     public void update(SuscripcionDTO suscripcionDTO) {
@@ -31,6 +50,10 @@ public class SuscripcionServiceImpl implements SuscripcionService {
 
     public List<Suscripcion> findAll() {
         return suscripcionRepository.findAll();
+    }
+
+    public Optional<Suscripcion> findByPersonaNumeroDocumento(String numeroDocumento) {
+        return suscripcionRepository.findByPersona_NumeroDocumento(numeroDocumento);
     }
 
     public List<Suscripcion> findByActiva(Boolean activa) {
