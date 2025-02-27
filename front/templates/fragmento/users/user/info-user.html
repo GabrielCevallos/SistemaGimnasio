@@ -1,18 +1,13 @@
 {% extends 'blank.html' %}
-{% block title %}{{ perfil.nickName }}{% endblock %}
+{% block title %}{{ user.nickName }}{% endblock %}
 
 {% block custom_styles %}
 <link rel="stylesheet" href="{{ url_for('static',filename='css/flatpickr.min.css' ) }}">
 <link rel="stylesheet" href="{{ url_for('static',filename='css/custom/validation.register.css' ) }}">
 {% endblock %}
 
-{% set admin_class = 'active' if admins else '' %}
-{% set client_class = 'active' if not admins else '' %}
-
-{% set client_class = '' if my_profile else client_class %}
-
-{% block admin_nav_class %}{{ admin_class }}{% endblock %}
-{% block client_nav_class %}{{ client_class }}{% endblock %}
+{% block admin_nav_class %}{{ template_details.admin_nav_class }}{% endblock %}
+{% block client_nav_class %}{{ template_details.client_nav_class }}{% endblock %}
 
 {% block content %}
 <div class="container-fluid pt-4 px-4">
@@ -43,12 +38,12 @@
     <div class="testimonial-item text-center">
 
       <img class="img-fluid rounded-circle mx-auto mb-4"
-        src="{{ url_for('static',filename='img/user_profile/' + perfil.imagen ) }}"
+        src="{{ url_for('static',filename='img/user_profile/' + user.imagen ) }}"
         style="width: 100px; height: 100px;">
 
-      <h5 class="mb-1">{{ perfil.nickname }}</h5>
-      <p>{{ perfil.nombre }} {{ perfil.apellido }}</p>
-      <p class="mb-0">Se unió el {{ perfil.fecha_registro }}</p>
+      <h5 class="mb-1">{{ user.nickname }}</h5>
+      <p>{{ user.nombre }} {{ user.apellido }}</p>
+      <p class="mb-0">Se unió el {{ user.fecha_registro }}</p>
 
     </div>
     <br>
@@ -89,28 +84,28 @@
         <h5>Información personal</h5>
         <dl class="row mb-0">
           <dt class="col-sm-4">Correo Electrónico:</dt>
-          <dd class="col-sm-8">{{ perfil.correo }}</dd>
+          <dd class="col-sm-8">{{ user.correo }}</dd>
 
           <dt class="col-sm-4">Celular:</dt>
-          <dd class="col-sm-8">{{ perfil.telefono_celular }}</dd>
+          <dd class="col-sm-8">{{ user.telefono_celular }}</dd>
 
           <dt class="col-sm-4">Dirección:</dt>
-          <dd class="col-sm-8">{{ perfil.direccion }}</dd>
+          <dd class="col-sm-8">{{ user.direccion }}</dd>
 
           <dt class="col-sm-4 text-truncate">Identificación: </dt>
-          <dd class="col-sm-8">{{ perfil.numero_documento }}</dd>
+          <dd class="col-sm-8">{{ user.numero_documento }}</dd>
 
           <dt class="col-sm-4">Fecha de Nacimiento:</dt>
-          <dd class="col-sm-8">{{ perfil.fecha_nacimiento }}</dd>
+          <dd class="col-sm-8">{{ user.fecha_nacimiento }}</dd>
 
           <dt class="col-sm-4">Genero:</dt>
-          <dd class="col-sm-8">{{ perfil.genero }}</dd>
+          <dd class="col-sm-8">{{ user.genero }}</dd>
 
           <dt class="col-sm-4">Rol en el Sistema:</dt>
-          <dd class="col-sm-8">{{ perfil.rol }}</dd>
+          <dd class="col-sm-8">{{ user.rol }}</dd>
 
           <dt class="col-sm-4">Objetivo:</dt>
-          <dd class="col-sm-8">{{ perfil.objetivos }}</dd>
+          <dd class="col-sm-8">{{ user.objetivos }}</dd>
         </dl>
       </div>
 
@@ -157,9 +152,9 @@
         <form style="margin-top: 10px;" class="row g-3 needs-validation" action="/user/update/send" method="post"
           enctype="multipart/form-data" id="perfil-update-form" novalidate>
 
-          <input type="number" id="user-id-profile-update" name="userId" value="{{ perfil.id }}" hidden>
-          <input hidden type="number" name="id" id="id-perfil" value="{{ perfil.id }}">
-          <input hidden type="text" name="current-image" id="current-image" value="{{ perfil.imagen }}">
+          <input type="number" id="user-id-profile-update" name="userId" value="{{ user.id }}" hidden>
+          <input hidden type="number" name="id" id="id-perfil" value="{{ user.id }}">
+          <input hidden type="text" name="current-image" id="current-image" value="{{ user.imagen }}">
           <input type="text" id="my-profile-perfil" name="my-profile" value="{{ my_profile }}" hidden>
           <input type="text" name="admins" id="admins" value="{{ admins }}" hidden>
 
@@ -167,7 +162,7 @@
             <div class="col-sm-12">
               <label for="nickName" class="form-label">NickName </label>
               <input type="text" class="form-control" id="nickName" name="nickName"
-                value="{{ perfil.nickName }}">
+                value="{{ user.nickName }}">
             </div>
           </div>
 
@@ -181,7 +176,7 @@
           <div class="col-sm-12">
             <label for="objetivoCliente" class="form-label">Objetivo </label>
             <textarea class="form-control" name="objetivoCliente"
-              id="objetivoCliente">{{ perfil.objetivoCliente }}</textarea>
+              id="objetivoCliente">{{ user.objetivoCliente }}</textarea>
           </div>
 
           <div class="col-12">
@@ -201,53 +196,53 @@
 
         <form action="/user/update/persona" class="row g-3 needs-validation" method="post" id="persona-update-form">
 
-          <input hidden type="number" name="id" id="id-persona" value="{{ perfil.id }}">
-          <input type="number" id="user-id-person-update" name="userId" value="{{ perfil.id }}" hidden>
+          <input hidden type="number" name="id" id="id-persona" value="{{ user.id }}">
+          <input type="number" id="user-id-person-update" name="userId" value="{{ user.id }}" hidden>
           <input type="text" id="my-profile-persona" name="my-profile" value="{{ my_profile }}" hidden>
           <input type="text" name="admins" id="admins" value="{{ admins }}" hidden>
-          <input type="text" name="rol" id="rol" value="{{ perfil.rol }}" hidden>
+          <input type="text" name="rol" id="rol" value="{{ user.rol }}" hidden>
 
           <div class="col-sm-6">
             <label for="nombre" class="form-label">Nombre: </label>
             <input type="text" class="form-control" name="nombre" id="nombre"
-              value="{{ perfil.nombre }}">
+              value="{{ user.nombre }}">
           </div>
 
           <div class="col-sm-6">
             <label for="apellido" class="form-label">Apellido: </label>
             <input type="text" id="apellido" class="form-control" name="apellido"
-              value="{{ perfil.apellido }}">
+              value="{{ user.apellido }}">
           </div>
 
           <div class="col-sm-6">
             <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento: </label>
             <input type="date" id="fechaNacimiento" class="form-control" style="background-color: black;"
-              name="fechaNacimiento" value="{{ perfil.fechaNacimiento }}">
+              name="fechaNacimiento" value="{{ user.fechaNacimiento }}">
           </div>
 
           <div class="col-sm-6">
             <label for="identificacion" class="form-label">Identificación: </label>
             <input type="text" class="form-control" id="identificacion" name="identificacion"
-              value="{{ perfil.identificacion }}">
+              value="{{ user.identificacion }}">
           </div>
 
           <div class="col-sm-12">
             <label for="celular" class="form-label">Celular: </label>
             <input type="text" id="celular" class="form-control" name="celular"
-              value="{{ perfil.celular }}">
+              value="{{ user.celular }}">
           </div>
 
           <div class="col-sm-12">
             <label for="direccion" class="form-label">Dirección: </label>
             <input type="text" id="direccion" class="form-control" name="direccion"
-              value="{{ perfil.direccion }}">
+              value="{{ user.direccion }}">
           </div>
 
           <div class="col-sm-6">
             <label for="tipoIdentificacion" class="form-label">Tipo Identificación: </label>
             <select class="form-select mb-3" id="tipoIdentificacion" name="tipoIdentificacion" required>
               {% for tipo in enums.tipos %}
-              <option value="{{ tipo }}" {% if tipo==perfil.tipoIdentificacion %} selected {% endif %}>
+              <option value="{{ tipo }}" {% if tipo==user.tipoIdentificacion %} selected {% endif %}>
                 {{ tipo }}
               </option>
               {% endfor %}
@@ -258,7 +253,7 @@
             <label for="genero" class="form-label">Genero: </label>
             <select class="form-select mb-3" name="genero" id="genero" required>
               {% for genero in enums.generos %}
-              <option value="{{ genero }}" {% if genero==perfil.genero %} selected {% endif %}>{{ genero
+              <option value="{{ genero }}" {% if genero==user.genero %} selected {% endif %}>{{ genero
                 }}</option>
               {% endfor %}
             </select>
@@ -279,12 +274,12 @@
 
         <form id="change-password-form" class="row g-3 needs-validation" action="/change_password" method="post">
 
-          <input type="number" id="id-cuenta" name="id" value="{{ perfil.id }}" hidden>
+          <input type="number" id="id-cuenta" name="id" value="{{ user.id }}" hidden>
           <input type="text" id="correoElectronico" name="correoElectronico"
-            value="{{ perfil.correoElectronico }}" hidden>
-          <input type="number" id="personaId" name="personaId" value="{{ perfil.id }}" hidden>
-          <input type="number" id="perfilId" name="perfilId" value="{{ perfil.id }}" hidden>
-          <input type="text" id="rol" name="rol" value="{{ perfil.rol }}" hidden>
+            value="{{ user.correoElectronico }}" hidden>
+          <input type="number" id="personaId" name="personaId" value="{{ user.id }}" hidden>
+          <input type="number" id="perfilId" name="perfilId" value="{{ user.id }}" hidden>
+          <input type="text" id="rol" name="rol" value="{{ user.rol }}" hidden>
 
           <input type="text" id="my-profile" name="my-profile" value="{{ my_profile }}" hidden>
           <input type="text" name="admins" id="admins" value="{{ admins }}" hidden>
@@ -335,27 +330,27 @@
 
         <div class="d-flex align-items-center justify-content-between mb-4">
           <h5>Suscripción</h5>
-             <a href="/suscripcion/update/{{ perfil.id }}/{% if my_profile %}True{% else %}False{% endif %}/{% if admins %}True{% else %}False{% endif %}">Editar</a>
+             <a href="{{ url_for('router.suscripcion_update',id=suscripcion.suscripcion_id ) }}">Editar</a>
         </div>
 
         <dl class="row mb-0">
           <dt class="col-sm-4">Fecha de Inicio:</dt>
-          <dd class="col-sm-8">{{ perfil.fechaInicio }}</dd>
+          <dd class="col-sm-8">{{ suscripcion.fecha_inicio }}</dd>
 
           <dt class="col-sm-4"> Estado de la suscripción:</dt>
-          <dd class="col-sm-8">{{ 'activo' if perfil.activo else 'inactivo' }}</dd>
+          <dd class="col-sm-8">{{ 'activo' if suscripcion.activo else 'inactivo' }}</dd>
 
           <dt class="col-sm-4"> Tipo de suscripción:</dt>
-          <dd class="col-sm-8">{{ perfil.tipo }}</dd>
+          <dd class="col-sm-8">{{ suscripcion.nombre }}</dd>
 
-          <dt class="col-sm-4"> Numero de días:</dt>
-          <dd class="col-sm-8">{{ perfil.duracionDias }}</dd>
+          <!-- <dt class="col-sm-4"> Numero de días:</dt>
+          <dd class="col-sm-8"> </dd> -->
 
           <dt class="col-sm-4"> Fecha de Finalización:</dt>
-          <dd class="col-sm-8">{{ perfil.fechaFinalizacion }}</dd>
+          <dd class="col-sm-8">{{ suscripcion.fecha_expiracion }}</dd>
 
           <dt class="col-sm-4"> Precio:</dt>
-          <dd class="col-sm-8">{{ perfil.precio }}</dd>
+          <dd class="col-sm-8">{{ suscripcion.precio }}</dd>
         </dl>
       </div>
     </div>

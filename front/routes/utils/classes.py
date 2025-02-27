@@ -17,7 +17,7 @@ class Persona:
     genero: str
 
     @staticmethod
-    def calcular_edad(fecha_nacimiento:str):
+    def calcular_edad(fecha_nacimiento: str) -> int:
         fecha_nacimiento = datetime.strptime(fecha_nacimiento, '%Y-%m-%d')
         fecha_actual = datetime.now()
         edad = fecha_actual.year - fecha_nacimiento.year
@@ -26,7 +26,7 @@ class Persona:
         return edad 
 
     @staticmethod
-    def from_dict(data:dict):
+    def from_dict(data: dict) -> 'Persona':
         return Persona(
             persona_id=data['persona']['personaId'],
             telefono_celular=data['persona']['telefonoCelular'],
@@ -40,64 +40,83 @@ class Persona:
             numero_documento=data['persona']['numeroDocumento'],
             genero=data['persona']['genero']
         )
+    
+@dataclass
+class Perfil(Persona):
+    perfil_id: int
+    nickname: str
+    imagen: str
+    objetivos: str
+    fecha_registro: str
+
+    @staticmethod
+    def from_dict(data: dict) -> 'Perfil':
+        persona = Persona.from_dict(data)
+        return Perfil(
+            **persona.__dict__,
+            perfil_id=data['perfil']['perfilId'],
+            objetivos=data['perfil']['objetivos'],
+            fecha_registro=data['perfil']['fechaRegistro'],
+            nickname=data['perfil']['nickname'],
+            imagen=data['perfil']['imagen']
+        )
+    
+@dataclass
+class Usuario(Perfil):
+    usuario_id: int
+    correoElectronico: str
+    rol: str
+
+    @staticmethod
+    def from_dict(data: dict) -> 'Usuario':
+        persona_perfil = Perfil.from_dict(data)
+        return Usuario(
+            **persona_perfil.__dict__,
+            usuario_id=data['usuarioId'],
+            correoElectronico=data['correoElectronico'],
+            rol=data['rol']['nombre']
+        ) 
+    
+@dataclass
+class Suscripcion:
+    suscripcion_id: int
+    nombre: str
+    fecha_inicio: str
+    fecha_expiracion: str
+    activa: bool
+    precio: float
+    persona_id: int
+
+    @staticmethod
+    def from_dict(data: dict) -> 'Suscripcion':
+        return Suscripcion(
+            suscripcion_id=data['suscripcionId'],
+            precio=data['precio'],
+            nombre=data['nombre'],
+            fecha_inicio=data['fechaInicio'],
+            fecha_expiracion=data['fechaExpiracion'],
+            activa=data['activa'],
+            persona_id=data['persona']['personaId']
+        )   
 
 @dataclass
-class AuthUser(Persona):
-    id: int
-    correo: str
+class AuthUser():
+    usuario_id: int
+    nombre: str
+    apellido: str
+    correoElectronico: str
     nickname: str
     imagen: str
     rol: str
 
     @staticmethod
-    def from_dict(data:dict):
-        persona = Persona.from_dict(data)
+    def from_dict(data: dict) -> 'AuthUser':
         return AuthUser(
-            **persona.__dict__,
-            id=data['id'] if 'id' in data else data['usuarioId'],
-            correo=data['correoElectronico'],
+            usuario_id=data['usuarioId'],
+            nombre=data['persona']['nombre'],
+            apellido=data['persona']['apellido'],
+            correoElectronico=data['correoElectronico'],
             rol=data['rol']['nombre'],
             imagen=data['perfil']['imagen'],
             nickname=data['perfil']['nickname']
-        )
-    
-@dataclass
-class PerfilPersona(AuthUser):
-    objetivos: str
-    fecha_registro: str
-
-    @staticmethod
-    def from_dict(data:dict):
-        auth_user = AuthUser.from_dict(data)
-        return PerfilPersona(
-            **auth_user.__dict__,
-            objetivos=data['perfil']['objetivos'],
-            fecha_registro=data['perfil']['fechaRegistro']
-        )
-    
-@dataclass
-class Suscripcion:
-    suscripcion_id: int
-    nombre_suscripcion: str
-    fecha_inicio: str
-    fecha_expiracion: str
-    activa: bool
-
-    @staticmethod
-    def from_dict(data:dict):
-        return Suscripcion(
-            suscripcion_id=data['suscripcionId'],
-            nombre_suscripcion=data['nombre'],
-            fecha_inicio=data['fechaInicio'],
-            fecha_expiracion=data['fechaExpiracion'],
-            activa=data['activa']
-        )    
-    
-@dataclass 
-class PerfilSuscripcion(PerfilPersona, Suscripcion):
-    @staticmethod
-    def from_suscripcion_perfil(perfil_persona: PerfilPersona, suscripcion: Suscripcion):
-        return PerfilSuscripcion(
-            **perfil_persona.__dict__,
-            **suscripcion.__dict__
         )

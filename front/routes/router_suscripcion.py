@@ -1,17 +1,21 @@
 from .router import *
-from .utils.decorator import *
+from .utils.auth_utils import *
 
 SCP_URL = f'{BASE_URL}/suscripcion' 
 
 #UPDATE
-@router.route('/suscripcion/update/<int:id>/<my_profile>/<admins>')
+@router.route('/suscripcion/update/<id>')
 @login_required(roles = ['ADMINISTRADOR'])
-def suscripcion_update(id, headers,usr,my_profile,admins):
-    headers["Content-Type"] = "application/json"
+def suscripcion_update(id: int, headers: dict, auth_user: AuthUser) -> str:
+    headers['Content-Type'] = 'application/json'
     suscripcion = requests.get(f'{SCP_URL}/get/{id}', headers=headers).json()['data']
-    #print(suscripcion)
-    e = requests.get(f'{SCP_URL}/tipoSuscripcion',headers=headers).json()['data']
-    return render_template('fragmento/suscripcion/update.html',suscripcion=suscripcion,e=e, user=usr, admis=usr['persona']['rol'] == 'ADMINISTRADOR', my_profile=my_profile, admins=admins)
+    tipo_suscripcion_list = requests.get(f'{SCP_URL}/tipoSuscripcion',headers=headers).json()['data']
+    return render_template(
+        template_name_or_list='fragmento/suscripcion/update.html',
+        suscripcion=suscripcion,
+        tipo_suscripcion=tipo_suscripcion_list,
+        auth_user=auth_user,
+    )
 
 
 @router.route('/suscripcion/update/send/', methods=['POST'])

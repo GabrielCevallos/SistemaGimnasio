@@ -1,5 +1,5 @@
 from .router import *
-from .utils.decorator import *
+from .utils.auth_utils import *
 
 router_ejercicio = Blueprint('router_ejercicio',__name__)
 

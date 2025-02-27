@@ -11,7 +11,7 @@ from reportlab.lib.utils import ImageReader
 import requests
 import matplotlib.pyplot as plt
 import requests
-from .utils.decorator import *
+from .utils.auth_utils import *
 from reportlab.pdfgen import canvas
 from reportlab.lib.utils import ImageReader
 import requests

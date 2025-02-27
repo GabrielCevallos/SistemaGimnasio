@@ -4,7 +4,7 @@ import time
 
 REGISTER_URL = 'http://localhost:8080/auth/register/true'
 LOGIN_URL = 'http://localhost:8080/auth/login'
-USERS_LIST_URL = 'http://localhost:8080/api/usuario/find/role/ADMINISTRADOR'
+USERS_LIST_URL = 'http://localhost:8080/api/usuario/find/role/cliente'
 
 #ruta absoluta al archivo json
 json_file = '/home/pccdva/vsc-workspace/users.json'

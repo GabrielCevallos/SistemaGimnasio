@@ -1,7 +1,7 @@
 from flask import render_template, redirect, request, flash, Blueprint
 import requests
 import json
-from .utils.decorator import *
+from .utils.auth_utils import *
 
 BASE_URL = 'http://localhost:8080'
 

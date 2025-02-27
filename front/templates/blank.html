@@ -35,9 +35,9 @@
         <a href="/" class="nav-item nav-link {% block dash_nav_class %}{% endblock %}"><i
             class="fa fa-tachometer-alt me-2"></i>Inicio</a>
         {% if auth_user.rol == 'ADMINISTRADOR' %}
-          <a href="/users/admin/list" class="nav-item nav-link {% block admin_nav_class %}{% endblock %}"><i
+          <a href="/users/administrador/list" class="nav-item nav-link {% block admin_nav_class %}{% endblock %}"><i
             class="fa fa-lock me-2"></i>Administradores</a>
-          <a href="/users/client/list" class="nav-item nav-link {% block client_nav_class %}{% endblock %}"><i
+          <a href="/users/cliente/list" class="nav-item nav-link {% block client_nav_class %}{% endblock %}"><i
               class="fa fa-users me-2"></i>Clientes</a>
         {% endif %}
         <div class="nav-item dropdown">
@@ -80,7 +80,7 @@
             <span class="d-none d-lg-inline-flex">{{ auth_user.nickname }}</span>
           </a>
           <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
-            <a href="/my_profile" class="dropdown-item"><i class="fa-regular fa-user"></i> Mi perfil</a>
+            <a href="{{ url_for('router.info_user', id=auth_user.usuario_id) }}" class="dropdown-item"><i class="fa-regular fa-user"></i> Mi perfil</a>
             <a href="/logout" class="dropdown-item"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</a>
           </div>
         </div>

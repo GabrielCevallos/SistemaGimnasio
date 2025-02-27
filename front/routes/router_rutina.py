@@ -1,5 +1,5 @@
 from .router import *
-from .utils.decorator import *
+from .utils.auth_utils import *
 from flask import request
 
 router_rutina = Blueprint('router_rutina',__name__)

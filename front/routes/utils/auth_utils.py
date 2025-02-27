@@ -1,15 +1,14 @@
 from flask import session, redirect, flash, request, url_for, render_template
 import requests
 from routes.utils.classes import AuthUser
-
-SW_URL = 'http://localhost:8080'
+from routes.backend_urls import BASE_URL, CURRENT_AUTH_USER_URL
 
 def isTokenValid(in_login=None):
     if not 'token' in session:
         return False
     
     headers = {'Authorization' : f'Bearer {session["token"]}'}
-    response = requests.get(f'{SW_URL}/auth/user-authenticated', headers=headers)
+    response = requests.get(CURRENT_AUTH_USER_URL, headers=headers)
 
     unauthorized = response.status_code == 401
 
@@ -31,7 +30,7 @@ def login_required(roles=None):
             if not isTokenValid():
                 return redirect(url_for('router.login', next=request.url))
             headers = {'Authorization' : f'Bearer {session["token"]}'}
-            response = requests.get(f'{SW_URL}/auth/user-authenticated', headers=headers).json()['data']
+            response = requests.get(CURRENT_AUTH_USER_URL, headers=headers).json()['data']
             auth_user = AuthUser.from_dict(response)
             current_role = auth_user.rol
 
