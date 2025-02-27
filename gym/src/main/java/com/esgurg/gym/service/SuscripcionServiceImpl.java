@@ -29,7 +29,7 @@ public class SuscripcionServiceImpl implements SuscripcionService {
         Suscripcion suscripcion = new Suscripcion();
         suscripcion.setActiva(true);
         suscripcion.setFechaInicio(LocalDate.now());
-        suscripcion.setNombre(TipoSuscripcion.DIARIA);
+        suscripcion.setTipo(TipoSuscripcion.DIARIA);
         int DAYS_OF_TRIAL = 1;
         suscripcion.setFechaExpiracion(LocalDate.now().plusDays(DAYS_OF_TRIAL));
         float PRICE_OF_TRIAL = TipoSuscripcion.DIARIA.getPrecio();
@@ -68,10 +68,10 @@ public class SuscripcionServiceImpl implements SuscripcionService {
         suscripcion.setFechaInicio(LocalDate.now());
         final LocalDate expiration = TipoSuscripcion.getExpirationDateOf(
                 suscripcionDTO.getFechaInicio(),
-                suscripcionDTO.getTipoSuscripcion()
+                suscripcionDTO.getTipo()
         );
         suscripcion.setFechaExpiracion(expiration);
-        suscripcion.setPrecio(suscripcionDTO.getTipoSuscripcion().getPrecio());
+        suscripcion.setPrecio(suscripcionDTO.getTipo().getPrecio());
         suscripcionRepository.save(suscripcion);
         return Optional.of(suscripcionRepository.save(suscripcion));
     }

@@ -8,40 +8,20 @@ from routes.backend_urls import (
     BASE_URL, PERSONA_URL, USUARIO_URL, USUARIO_FIND_ROLE_URL, 
     PERSONA_ENUM_URL, REGISTER_URL, PERFIL_URL, UPDATE_PERFIL_URL,
     UPDATE_PERSONA_URL, USUARIO_FIND_ID_URL, SUSCRIPCION_FIND_PERSONA_URL,
-    CURRENT_AUTH_USER_URL
+    CURRENT_AUTH_USER_URL, UPDATE_USUARIO_URL, CHANGE_PASSWORD_URL
 )
 from routes.utils.classes import AuthUser, Perfil, Suscripcion, Persona, Usuario
-from routes.utils.templates_url import users_urls as templates
-
-UPLOAD_FOLDER = 'static/img/user_profile/'
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
+from routes.utils.template_urls import UserTemplate
+from routes.utils.image_management import allowed_file, delete_unreferenced_images, UPLOAD_FOLDER
+from routes.utils.persona_list_utils import parse_persona_numbers, get_usuario_list
 
 #TODO refactorizar, poner el decorator en un directorio 'auth'
 #TODO: EN EL BACKEND PONER SUSCRIPCION.NOMBRE COMO SUSCRIPCION.TIPO 
 #TODO: PONER EL MANEJO DE IMAGENES, LAS FUNCIONES DE PARSEO Y ASIGNACION DE NUMEROS EN Un modulo aparte
 
-# This function parses a list of dictionaries into a list of Persona objects
-def parse_usuario(data: list) -> list:
-    return [Usuario.from_dict(item) for item in data]
-
-def assign_usuario_numbers(usuario_list: list) -> list:
-    for i, usuario in enumerate(usuario_list, 1):
-        usuario.numero = i
-    return usuario_list
-
-def parse_persona_numbers(usuario_list: list) -> list:
-    usuario_list = parse_usuario(usuario_list)
-    return assign_usuario_numbers(usuario_list=usuario_list)
-
-def get_usuario_list(role: str, headers: dict, auth_user: AuthUser) -> list:
-    response = requests.get(f'{USUARIO_FIND_ROLE_URL}/{role}', headers=headers)
-    usuario_list = response.json()['data']
-    # Remove the authenticated user from the list
-    return [usuario for usuario in usuario_list if usuario['usuarioId'] != auth_user.usuario_id]
-
 @router.route('/users/<role>/list')
 @login_required(roles=['ADMINISTRADOR'])
-def users_client_list(headers: dict, auth_user: AuthUser, role: str) -> str:
+def users_list(headers: dict, auth_user: AuthUser, role: str) -> str:
     usuario_list = get_usuario_list(role, headers, auth_user)
     usuario_list = parse_persona_numbers(usuario_list=usuario_list)
     is_admin_list_view = (role == 'administrador')
@@ -51,13 +31,14 @@ def users_client_list(headers: dict, auth_user: AuthUser, role: str) -> str:
     template_details = {
         'admin_nav_class': 'active' if is_admin_list_view else '',
         'client_nav_class': 'active' if not is_admin_list_view else '',
+        'page_title': 'Administradores' if is_admin_list_view else 'Clientes',
         'register_url': register_url,
         'card_title': 'ADMINISTRADORES' if is_admin_list_view else 'CLIENTES',
         'role': role
     }
 
     return render_template(
-        template_name_or_list=templates['list'],
+        template_name_or_list=UserTemplate.USER_LIST,
         personas=usuario_list,
         auth_user=auth_user,
         admin=is_admin_list_view,
@@ -67,8 +48,13 @@ def users_client_list(headers: dict, auth_user: AuthUser, role: str) -> str:
 @router.route('/register/user/<role>')
 @login_required(roles=['ADMINISTRADOR'])
 def register_user(headers: dict, auth_user: AuthUser, role: str) -> str:
-    e = requests.get(PERSONA_ENUM_URL, headers=headers).json()['data']
-    return render_template(templates['register'], e=e, auth_user=auth_user, role=role.upper())
+    enumerations = requests.get(PERSONA_ENUM_URL, headers=headers).json()['data']
+    return render_template(
+        UserTemplate.USER_REGISTER,
+        e=enumerations,
+        auth_user=auth_user,
+        role=role.upper()
+    )
 
 @router.route('/register/user/send',methods=['POST'])
 @login_required(roles=['ADMINISTRADOR'])
@@ -101,23 +87,38 @@ def register_user_send(headers: dict, auth_user: AuthUser) -> Response:
     redirection = url_for('router.users_client_list', role=data['rol'].lower())
     return redirect(redirection)
 
-def allowed_file(filename: str) -> bool:
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+@router.route('/info/user/<id>')
+@login_required()
+def info_user(headers: dict, auth_user: AuthUser, id: int) -> str:
+    if id != auth_user.usuario_id and not auth_user.rol == 'ADMINISTRADOR':
+        return render_template('404.html'), 404
 
-def delete_unreferenced_images(headers: dict) -> str:
-    personas = requests.get(PERFIL_URL, headers=headers).json()['data']
-    referenced_images = {persona['imagen'] for persona in personas if 'imagen' in persona}
+    FIND_USER_URL = f'{USUARIO_FIND_ID_URL}/{id}'
+    response = requests.get(FIND_USER_URL , headers=headers)
+    USER = Usuario.from_dict(response.json()['data'])
 
-    referenced_images.add('user.png')
+    FIND_SUSCRIPCION_URL = f'{SUSCRIPCION_FIND_PERSONA_URL}/{USER.numero_documento}'
+    response = requests.get(FIND_SUSCRIPCION_URL, headers=headers)
+    suscripcion = Suscripcion.from_dict(response.json()['data'])
 
-    stored_images = set(os.listdir(UPLOAD_FOLDER))
+    enums = requests.get(PERSONA_ENUM_URL, headers=headers).json()['data']
 
-    unreferenced_images = stored_images - referenced_images
+    is_me = USER.usuario_id == auth_user.usuario_id
+    is_admin = USER.rol == 'ADMINISTRADOR'
 
-    for image in unreferenced_images:
-        os.remove(os.path.join(UPLOAD_FOLDER, image))
+    template_details = {
+        'admin_nav_class': 'active' if is_admin and not is_me  else '',
+        'client_nav_class': 'active' if not is_admin and not is_me else '',
+    }
 
-    return f"Deleted {len(unreferenced_images)} unreferenced images."
+    return render_template(
+        template_name_or_list=UserTemplate.USER_INFO,
+        enums=enums,
+        auth_user=auth_user,
+        user=USER,
+        suscripcion=suscripcion,
+        template_details=template_details
+    )
 
 @router.route('/user/profile/update/send', methods=['POST'])
 @login_required()
@@ -147,11 +148,11 @@ def perfil_update_send(headers: dict, auth_user: AuthUser) -> Response:
 @login_required()
 def change_password(headers: dict, auth_user: AuthUser) -> Response:
     data = request.form.to_dict()
-    response = requests.post(f'{BASE_URL}/auth/change-password',headers=headers,json=data)
+    response = requests.post(CHANGE_PASSWORD_URL, headers=headers, json=data)
     ok = response.status_code == 200
-    print(data)
     flash(f'{"Éxito" if ok else "Error"}: {"Se ha actualizado la contraseña" if ok else "no se ha podido actualizar la contraseña"}',category='success' if ok else 'error')
-    return redirect('/my_profile' if (eval(data['my-profile'])) else f'/view_user/{data["id"]}/{eval(data["admins"])}')
+    redirection = url_for('router.info_user', id=auth_user.usuario_id) 
+    return redirect(redirection)
 
 @router.route('/user/update/persona',methods=['POST'])
 @login_required()
@@ -160,46 +161,17 @@ def update_persona_send(headers: dict, auth_user: AuthUser) -> Response:
     response = requests.patch(UPDATE_PERSONA_URL, headers=headers, json=data)
     ok = response.status_code == 200
     flash(f'{"Éxito" if ok else "Error"}: {"Se ha actualizado el registro" if ok else "no se ha podido actualizar el registro"}',category='success' if ok else 'error')
-    return redirect('/my_profile' if (eval(data['my-profile'])) else f'/view_user/{data["userId"]}/{eval(data["admins"])}')
-
-@router.route('/info/user/<id>')
-@login_required()
-def info_user(headers: dict, auth_user: AuthUser, id: int) -> str:
-    if id != auth_user.usuario_id and not auth_user.rol == 'ADMINISTRADOR':
-        return render_template('404.html'), 404
-
-    FIND_USER_URL = f'{USUARIO_FIND_ID_URL}/{id}'
-    response = requests.get(FIND_USER_URL , headers=headers)
-    USER = Usuario.from_dict(response.json()['data'])
-
-    FIND_SUSCRIPCION_URL = f'{SUSCRIPCION_FIND_PERSONA_URL}/{USER.numero_documento}'
-    response = requests.get(FIND_SUSCRIPCION_URL, headers=headers)
-    suscripcion = Suscripcion.from_dict(response.json()['data'])
-
-    enums = requests.get(PERSONA_ENUM_URL, headers=headers).json()['data']
-
-    is_me = USER.usuario_id == auth_user.usuario_id
-    is_admin = USER.rol == 'ADMINISTRADOR'
-
-    template_details = {
-        'admin_nav_class': 'active' if is_admin and not is_me  else '',
-        'client_nav_class': 'active' if not is_admin and not is_me else '',
-    }
-
-    return render_template(
-        template_name_or_list='fragmento/users/user/info-user.html',
-        enums=enums,
-        auth_user=auth_user,
-        user=USER,
-        suscripcion=suscripcion,
-        template_details=template_details
-    )
+    redirection = url_for('router.info_user', id=auth_user.usuario_id) 
+    return redirect(redirection)
 
 @router.route('/user/delete/<id>')
 @login_required(roles=['ADMINISTRADOR'])
 def delete_user(id: int, headers: dict, auth_user: AuthUser) -> str:
+    response = requests.get(f'{USUARIO_FIND_ID_URL}/{id}', headers=headers)
+    user = Usuario.from_dict(response.json()['data'])
     return render_template(
-        'fragmento/users/delete.html',
+        template_name_or_list=UserTemplate.USER_DELETE,
+        user=user,
         id=id,
         auth_user=auth_user
     )
@@ -208,7 +180,8 @@ def delete_user(id: int, headers: dict, auth_user: AuthUser) -> str:
 @login_required(roles=['ADMINISTRADOR'])
 def delete_user_send(headers: dict, auth_user: AuthUser) -> Response:
     data = request.form.to_dict()
-    response = requests.delete(f'{BASE_URL}/auth/delete/{data["id"]}',headers=headers)
+    response = requests.delete(f'{USUARIO_URL}/{data["id"]}',headers=headers)
     ok = response.status_code == 200
     flash(f'{"Éxito" if ok else "Error"}: {"Se ha eliminado el registro" if ok else "no se ha podido eliminar el registro"}',category='success' if ok else 'error')
-    return redirect('/users/admin/list' if eval(data['admins']) else '/users/client/list')
+    redirection = url_for('router.users_list', role=data['role'])
+    return redirect(redirection)

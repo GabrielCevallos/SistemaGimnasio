@@ -3,9 +3,7 @@ package com.esgurg.gym.service;
 import com.esgurg.gym.dto.*;
 import com.esgurg.gym.entity.Perfil;
 import com.esgurg.gym.entity.Persona;
-import com.esgurg.gym.entity.Suscripcion;
 import com.esgurg.gym.entity.Usuario;
-import com.esgurg.gym.entity.security.Rol;
 import com.esgurg.gym.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -72,7 +70,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public void update(UsuarioDTO usuario) {
-        Usuario currentUser = usuarioRepository.findById(usuario.getId()).orElseThrow(
+        Usuario currentUser = usuarioRepository.findById(usuario.getUsuarioId()).orElseThrow(
                 () -> new RuntimeException("Usuario no encontrado")
         );
         Usuario usuarioToUpdate = usuario.setValuesTo(currentUser);

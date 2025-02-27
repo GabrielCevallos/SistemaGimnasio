@@ -120,3 +120,4 @@ class AuthUser():
             imagen=data['perfil']['imagen'],
             nickname=data['perfil']['nickname']
         )
+    

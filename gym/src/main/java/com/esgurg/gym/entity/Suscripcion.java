@@ -18,7 +18,7 @@ public class Suscripcion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long suscripcionId;
 
-    private TipoSuscripcion nombre;
+    private TipoSuscripcion tipo;
     private Float precio;
 
     private LocalDate fechaInicio;

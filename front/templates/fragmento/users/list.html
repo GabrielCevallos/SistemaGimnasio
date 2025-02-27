@@ -1,5 +1,5 @@
 {% extends 'blank.html' %}
-{% block title %}{% if admin %}Administradores{% else %}Clientes{% endif %}{% endblock %}
+{% block title %}{{ template_details.page_title }}{% endblock %}
 
 {% block admin_nav_class %}{{ template_details.admin_nav_class }}{% endblock %}
 {% block client_nav_class %}{{ template_details.client_nav_class }}{% endblock %}
@@ -31,9 +31,6 @@
     {% endfor %}
   {% endif %}
 {% endwith %}
-
-{% set role = 'admin' if admin else 'cliente' %}
-
 
 <div class="container-fluid pt-4 px-4">
   <div class="bg-secondary rounded h-100 p-4">

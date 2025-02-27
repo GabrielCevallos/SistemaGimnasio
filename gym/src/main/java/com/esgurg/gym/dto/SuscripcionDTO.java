@@ -16,7 +16,7 @@ import java.util.Map;
 public class SuscripcionDTO {
     private Long id;
 
-    private TipoSuscripcion tipoSuscripcion;
+    private TipoSuscripcion tipo;
     private Float precio;
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
@@ -25,13 +25,13 @@ public class SuscripcionDTO {
 
     private Persona persona;
 
-    public SuscripcionDTO(TipoSuscripcion tipoSuscripcion,
+    public SuscripcionDTO(TipoSuscripcion nombre,
                           Float precio,
                           LocalDate fechaInicio,
                           LocalDate fechaFin,
                           Boolean activa,
                           Persona persona) {
-        this.tipoSuscripcion = tipoSuscripcion;
+        this.tipo = nombre;
         this.precio = precio;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
@@ -40,8 +40,8 @@ public class SuscripcionDTO {
     }
 
     public Suscripcion setValuesTo(Suscripcion suscripcion) {
-        if (this.tipoSuscripcion != null) {
-            suscripcion.setNombre(this.tipoSuscripcion);
+        if (this.tipo != null) {
+            suscripcion.setTipo(this.tipo);
         }
         if (this.precio != null) {
             suscripcion.setPrecio(this.precio);
@@ -64,7 +64,7 @@ public class SuscripcionDTO {
     public Map<String, Object> getEssentialInfo() {
         return Map.of(
                 "id", this.id,
-                "tipoSuscripcion", this.tipoSuscripcion,
+                "tipoSuscripcion", this.tipo,
                 "precio", this.precio,
                 "fechaInicio", this.fechaInicio,
                 "fechaFin", this.fechaFin,

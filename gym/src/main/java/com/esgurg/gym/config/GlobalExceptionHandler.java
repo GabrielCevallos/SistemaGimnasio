@@ -15,16 +15,21 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<String> handleDatabaseException(DataIntegrityViolationException ex) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("Error de base de datos: " + ex.getMessage());
+    public ResponseEntity<Map<String, Object>> handleDatabaseException(DataIntegrityViolationException ex) {
+        return new ResponseBuilder()
+                .withStatus(HttpStatus.BAD_REQUEST)
+                .withOperationStatus("Error de integridad de datos")
+                .withMessage(ex.getMessage())
+                .build();
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
-        ex.printStackTrace();
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body("Error de argumento: " + ex.getMessage());
+    public ResponseEntity<Map<String, Object>> handleIllegalArgumentException(IllegalArgumentException ex) {
+        return new ResponseBuilder()
+                .withStatus(HttpStatus.BAD_REQUEST)
+                .withOperationStatus("Error")
+                .withMessage(ex.getMessage())
+                .build();
     }
 
     @ExceptionHandler(NonUniqueResultException.class)
