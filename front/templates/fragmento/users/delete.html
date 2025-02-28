@@ -22,14 +22,14 @@
       <div class="bg-secondary rounded h-100 p-4">
           <form method="POST" action="/user/delete/send" novalidate>
             <input type="hidden" value="{{ id }}" name="id"/><br>
-            <input type="text" name="role" id="role" value="{{ user.role }}" hidden>
+            <input type="text" name="role" id="role" value="{{ user.rol }}" hidden>
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
                 <h4 class="alert-heading"><strong><center>¡¡¡ALERTA!!!</strong></h4>
                 <br><center>¡Esta acción no se podrá revertir!<br><center>¿Desea eliminar el Usuario seleccionado?<br>
                 <div class="col-6">
                     <br><button class="btn btn-success rounded-pill" type="submit">Confirmar</button>
                     
-                    <a href="/users/{{ next }}/list" class="btn btn-primary rounded-pill">Cancelar</a>
+                    <a href="/users/{{ user.rol.lower() }}/list" class="btn btn-primary rounded-pill">Cancelar</a>
                 </div>
             </div>
           </form>

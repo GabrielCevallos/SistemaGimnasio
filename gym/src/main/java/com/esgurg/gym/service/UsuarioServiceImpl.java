@@ -125,7 +125,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public List<Usuario> findByRole(String role) {
-        return usuarioRepository.findByRol(
+        Boolean active_users = true;
+        return usuarioRepository.findByActivoAndRol(
+                active_users,
                 rolService.findByNombre(role)
                         .orElseThrow(() -> new RuntimeException("Rol no encontrado"))
         );

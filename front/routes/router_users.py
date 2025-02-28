@@ -11,13 +11,9 @@ from routes.backend_urls import (
     CURRENT_AUTH_USER_URL, UPDATE_USUARIO_URL, CHANGE_PASSWORD_URL
 )
 from routes.utils.classes import AuthUser, Perfil, Suscripcion, Persona, Usuario
-from routes.utils.template_urls import UserTemplate
+from routes.utils.template_urls import USER_TEMPLATES
 from routes.utils.image_management import allowed_file, delete_unreferenced_images, UPLOAD_FOLDER
 from routes.utils.persona_list_utils import parse_persona_numbers, get_usuario_list
-
-#TODO refactorizar, poner el decorator en un directorio 'auth'
-#TODO: EN EL BACKEND PONER SUSCRIPCION.NOMBRE COMO SUSCRIPCION.TIPO 
-#TODO: PONER EL MANEJO DE IMAGENES, LAS FUNCIONES DE PARSEO Y ASIGNACION DE NUMEROS EN Un modulo aparte
 
 @router.route('/users/<role>/list')
 @login_required(roles=['ADMINISTRADOR'])
@@ -38,7 +34,7 @@ def users_list(headers: dict, auth_user: AuthUser, role: str) -> str:
     }
 
     return render_template(
-        template_name_or_list=UserTemplate.USER_LIST,
+        template_name_or_list=USER_TEMPLATES['list'],
         personas=usuario_list,
         auth_user=auth_user,
         admin=is_admin_list_view,
@@ -50,7 +46,7 @@ def users_list(headers: dict, auth_user: AuthUser, role: str) -> str:
 def register_user(headers: dict, auth_user: AuthUser, role: str) -> str:
     enumerations = requests.get(PERSONA_ENUM_URL, headers=headers).json()['data']
     return render_template(
-        UserTemplate.USER_REGISTER,
+        template_name_or_list=USER_TEMPLATES['register'],
         e=enumerations,
         auth_user=auth_user,
         role=role.upper()
@@ -112,7 +108,7 @@ def info_user(headers: dict, auth_user: AuthUser, id: int) -> str:
     }
 
     return render_template(
-        template_name_or_list=UserTemplate.USER_INFO,
+        template_name_or_list=USER_TEMPLATES['info'],
         enums=enums,
         auth_user=auth_user,
         user=USER,
@@ -170,7 +166,7 @@ def delete_user(id: int, headers: dict, auth_user: AuthUser) -> str:
     response = requests.get(f'{USUARIO_FIND_ID_URL}/{id}', headers=headers)
     user = Usuario.from_dict(response.json()['data'])
     return render_template(
-        template_name_or_list=UserTemplate.USER_DELETE,
+        template_name_or_list=USER_TEMPLATES['delete'],
         user=user,
         id=id,
         auth_user=auth_user
@@ -183,5 +179,5 @@ def delete_user_send(headers: dict, auth_user: AuthUser) -> Response:
     response = requests.delete(f'{USUARIO_URL}/{data["id"]}',headers=headers)
     ok = response.status_code == 200
     flash(f'{"Éxito" if ok else "Error"}: {"Se ha eliminado el registro" if ok else "no se ha podido eliminar el registro"}',category='success' if ok else 'error')
-    redirection = url_for('router.users_list', role=data['role'])
+    redirection = url_for('router.users_list', role=data['role'].lower())
     return redirect(redirection)

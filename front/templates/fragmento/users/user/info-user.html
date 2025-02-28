@@ -1,5 +1,5 @@
 {% extends 'blank.html' %}
-{% block title %}{{ user.nickName }}{% endblock %}
+{% block title %}{{ user.nickname }}{% endblock %}
 
 {% block custom_styles %}
 <link rel="stylesheet" href="{{ url_for('static',filename='css/flatpickr.min.css' ) }}">
@@ -114,11 +114,12 @@
 
         <div class="d-flex align-items-center justify-content-between mb-4">
           <h6>Estadísticas</h6>
-          {# <a href="/estadistica/edit/{{ full_user_info.estadistica.id }}">Editar</a>
-          <a href="/estadistica/pdf/{{ full_user_info.estadistica.id }}" class="btn btn-primary">Descargar PDF</a>
+          {#<a href="/estadistica/edit/{{ full_user_info.estadistica.id }}">Editar</a>
+          <a href="/estadistica/pdf/{{ full_user_info.estadistica.id }}" class="btn btn-primary">Descargar PDF</a>#}
         </div>
 
         <dl class="row mb-0">
+          {#
           <dt class="col-sm-4">Medidas de la Espalda:</dt>
           <dd class="col-sm-8">{{ full_user_info.estadistica.medidaEspalda }} cm</dd>
 
@@ -141,8 +142,8 @@
 
           <dt class="col-sm-4">Estatura:</dt>
           <dd class="col-sm-8">{{ full_user_info.estadistica.altura }} m</dd>
-
-        </dl> #}
+        #}
+        </dl> 
       </div>
 
       <div class="tab-pane fade" id="nav-editar-perfil" role="tabpanel"
@@ -162,7 +163,7 @@
             <div class="col-sm-12">
               <label for="nickName" class="form-label">NickName </label>
               <input type="text" class="form-control" id="nickName" name="nickName"
-                value="{{ user.nickName }}">
+                value="{{ user.nickname }}">
             </div>
           </div>
 
@@ -176,7 +177,7 @@
           <div class="col-sm-12">
             <label for="objetivoCliente" class="form-label">Objetivo </label>
             <textarea class="form-control" name="objetivoCliente"
-              id="objetivoCliente">{{ user.objetivoCliente }}</textarea>
+              id="objetivoCliente">{{ user.objetivos }}</textarea>
           </div>
 
           <div class="col-12">
@@ -217,19 +218,19 @@
           <div class="col-sm-6">
             <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento: </label>
             <input type="date" id="fechaNacimiento" class="form-control" style="background-color: black;"
-              name="fechaNacimiento" value="{{ user.fechaNacimiento }}">
+              name="fechaNacimiento" value="{{ user.fecha_nacimiento }}">
           </div>
 
           <div class="col-sm-6">
             <label for="identificacion" class="form-label">Identificación: </label>
             <input type="text" class="form-control" id="identificacion" name="identificacion"
-              value="{{ user.identificacion }}">
+              value="{{ user.numero_documento }}">
           </div>
 
           <div class="col-sm-12">
             <label for="celular" class="form-label">Celular: </label>
             <input type="text" id="celular" class="form-control" name="celular"
-              value="{{ user.celular }}">
+              value="{{ user.telefono_celular }}">
           </div>
 
           <div class="col-sm-12">
@@ -240,9 +241,9 @@
 
           <div class="col-sm-6">
             <label for="tipoIdentificacion" class="form-label">Tipo Identificación: </label>
-            <select class="form-select mb-3" id="tipoIdentificacion" name="tipoIdentificacion" required>
-              {% for tipo in enums.tipos %}
-              <option value="{{ tipo }}" {% if tipo==user.tipoIdentificacion %} selected {% endif %}>
+            <select class="form-select mb-3" id="tipo_documento" name="tipo_documento" required>
+              {% for tipo in enums.tipoDocumento %}
+              <option value="{{ tipo }}" {% if tipo==user.tipo_documento %} selected {% endif %}>
                 {{ tipo }}
               </option>
               {% endfor %}
@@ -252,7 +253,7 @@
           <div class="col-sm-6">
             <label for="genero" class="form-label">Genero: </label>
             <select class="form-select mb-3" name="genero" id="genero" required>
-              {% for genero in enums.generos %}
+              {% for genero in enums.genero %}
               <option value="{{ genero }}" {% if genero==user.genero %} selected {% endif %}>{{ genero
                 }}</option>
               {% endfor %}

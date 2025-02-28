@@ -1,5 +1,5 @@
 import os
-from flask import requests
+import requests
 from routes.backend_urls import PERFIL_URL
 
 UPLOAD_FOLDER = 'static/img/user_profile/'

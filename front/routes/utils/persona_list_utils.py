@@ -1,4 +1,4 @@
-from flask import requests
+import requests
 from routes.backend_urls import USUARIO_FIND_ROLE_URL
 from routes.utils.classes import Usuario
 from routes.utils.classes import AuthUser 

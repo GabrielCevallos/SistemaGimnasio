@@ -13,4 +13,5 @@ import com.esgurg.gym.entity.security.Rol;
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     Optional<Usuario> findByCorreoElectronico(String email);
     List<Usuario> findByRol(Rol rol);
+    List<Usuario> findByActivoAndRol(Boolean activo, Rol rol);
 }

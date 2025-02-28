@@ -92,7 +92,7 @@ class Suscripcion:
         return Suscripcion(
             suscripcion_id=data['suscripcionId'],
             precio=data['precio'],
-            nombre=data['nombre'],
+            nombre=data['tipo'],
             fecha_inicio=data['fechaInicio'],
             fecha_expiracion=data['fechaExpiracion'],
             activa=data['activa'],
