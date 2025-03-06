@@ -1,6 +1,6 @@
 package com.esgurg.gym.entity.enumeration;
 
-public enum Dias {
+public enum Dia {
     LUNES ("LUNES"),
     MARTES ("MARTES"),
     MIERCOLES ("MIÉRCOLES"),
@@ -11,7 +11,7 @@ public enum Dias {
 
     private final String dia;
 
-    Dias(String dia) {
+    Dia(String dia) {
         this.dia = dia;
     }
 
