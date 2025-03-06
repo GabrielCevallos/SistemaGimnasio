@@ -18,10 +18,9 @@ public class EjercicioRestController {
     private final EjercicioService ejercicioService;
 
     @PostMapping
-    public ResponseEntity<Map<String, Object>> saveEjercicio() {
+    public ResponseEntity<Map<String, Object>> saveEjercicio(@RequestBody EjercicioDTO ejercicio) {
         return new ResponseBuilder().responseWithOperation(
                 () -> {
-                    EjercicioDTO ejercicio = new EjercicioDTO();
                     ejercicioService.save(ejercicio);
                     return true;
                 },

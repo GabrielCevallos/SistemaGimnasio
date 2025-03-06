@@ -34,7 +34,7 @@ public class EjercicioService {
     }
 
     public Optional<Ejercicio> findByNombre(String nombre) {
-        return Optional.of(ejercicioRepository.findByNombre(nombre).orElseThrow(() -> new RuntimeException("Ejercicio no encontrado")));
+        return Optional.of(ejercicioRepository.findByNombreEjercicio(nombre).orElseThrow(() -> new RuntimeException("Ejercicio no encontrado")));
     }
 
     public void delete(Long id) {

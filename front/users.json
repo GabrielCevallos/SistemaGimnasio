@@ -1,0 +1,623 @@
+[
+    {
+        "correoElectronico": "andrea.morales@email.com",
+        "contrasena": "contrasena123",
+        "rol": {
+            "nombre": "CLIENTE"
+        },
+        "persona": {
+            "nombre": "Andrea",
+            "apellido": "Morales",
+            "telefonoCelular": "0998765432",
+            "fechaNacimiento": "1995-04-15",
+            "direccion": "Avenida Quito",
+            "tipoDocumento": "CEDULA",
+            "numeroDocumento": "0987654321",
+            "genero": "MUJER"
+        },
+        "perfil": {
+            "nickname": "andream97",
+            "objetivos": "mejorar mi salud mental",
+            "fechaRegistro": "2025-02-10",
+            "imagen": "user.png"
+        }
+    },
+    {
+        "correoElectronico": "juan.perez@email.com",
+        "contrasena": "juan1234",
+        "rol": {
+            "nombre": "CLIENTE"
+        },
+        "persona": {
+            "nombre": "Juan",
+            "apellido": "Pérez",
+            "telefonoCelular": "0982123456",
+            "fechaNacimiento": "1990-06-25",
+            "direccion": "Calle Santa Ana",
+            "tipoDocumento": "CEDULA",
+            "numeroDocumento": "1234567890",
+            "genero": "HOMBRE"
+        },
+        "perfil": {
+            "nickname": "juandelatorre",
+            "objetivos": "apoyar el crecimiento de la comunidad",
+            "fechaRegistro": "2025-01-20",
+            "imagen": "user.png"
+        }
+    },
+    {
+        "correoElectronico": "carla.romero@email.com",
+        "contrasena": "supercontraseña",
+        "rol": {
+            "nombre": "CLIENTE"
+        },
+        "persona": {
+            "nombre": "Carla",
+            "apellido": "Romero",
+            "telefonoCelular": "0991234567",
+            "fechaNacimiento": "1992-11-30",
+            "direccion": "Avenida de los Álamos",
+            "tipoDocumento": "CEDULA",
+            "numeroDocumento": "1122334455",
+            "genero": "MUJER"
+        },
+        "perfil": {
+            "nickname": "carlaR92",
+            "objetivos": "aprender a programar",
+            "fechaRegistro": "2025-02-01",
+            "imagen": "user.png"
+        }
+    },
+    {
+        "correoElectronico": "pedro.garcia@email.com",
+        "contrasena": "pedro1234",
+        "rol": {
+            "nombre": "CLIENTE"
+        },
+        "persona": {
+            "nombre": "Pedro",
+            "apellido": "García",
+            "telefonoCelular": "0976543210",
+            "fechaNacimiento": "1987-01-20",
+            "direccion": "Calle las Flores",
+            "tipoDocumento": "CEDULA",
+            "numeroDocumento": "9876543210",
+            "genero": "HOMBRE"
+        },
+        "perfil": {
+            "nickname": "pedroG87",
+            "objetivos": "conocer más sobre tecnología",
+            "fechaRegistro": "2025-02-05",
+            "imagen": "user.png"
+        }
+    },
+    {
+        "correoElectronico": "maria.flores@email.com",
+        "contrasena": "mariflores123",
+        "rol": {
+            "nombre": "CLIENTE"
+        },
+        "persona": {
+            "nombre": "María",
+            "apellido": "Flores",
+            "telefonoCelular": "0912345678",
+            "fechaNacimiento": "1993-03-22",
+            "direccion": "Calle del Sol",
+            "tipoDocumento": "CEDULA",
+            "numeroDocumento": "1029384756",
+            "genero": "MUJER"
+        },
+        "perfil": {
+            "nickname": "mariaflores",
+            "objetivos": "viajar por el mundo",
+            "fechaRegistro": "2025-02-08",
+            "imagen": "user.png"
+        }
+    },
+    {
+        "correoElectronico": "luis.martinez@email.com",
+        "contrasena": "luis1234",
+        "rol": {
+            "nombre": "ADMINISTRADOR"
+        },
+        "persona": {
+            "nombre": "Luis",
+            "apellido": "Martínez",
+            "telefonoCelular": "0912345679",
+            "fechaNacimiento": "1985-05-10",
+            "direccion": "Calle Luna",
+            "tipoDocumento": "CEDULA",
+            "numeroDocumento": "1234567891",
+            "genero": "HOMBRE"
+        },
+        "perfil": {
+            "nickname": "luisM85",
+            "objetivos": "gestionar la plataforma",
+            "fechaRegistro": "2025-02-11",
+            "imagen": "user.png"
+        }
+    },
+    {
+        "correoElectronico": "ana.lopez@email.com",
+        "contrasena": "ana1234",
+        "rol": {
+            "nombre": "CLIENTE"
+        },
+        "persona": {
+            "nombre": "Ana",
+            "apellido": "López",
+            "telefonoCelular": "0912345680",
+            "fechaNacimiento": "1991-07-15",
+            "direccion": "Calle Estrella",
+            "tipoDocumento": "CEDULA",
+            "numeroDocumento": "1234567892",
+            "genero": "MUJER"
+        },
+        "perfil": {
+            "nickname": "anaL91",
+            "objetivos": "comprar productos",
+            "fechaRegistro": "2025-02-12",
+            "imagen": "user.png"
+        }
+    },
+    {
+        "correoElectronico": "carlos.gomez@email.com",
+        "contrasena": "carlos1234",
+        "rol": {
+            "nombre": "ADMINISTRADOR"
+        },
+        "persona": {
+            "nombre": "Carlos",
+            "apellido": "Gómez",
+            "telefonoCelular": "0912345681",
+            "fechaNacimiento": "1988-09-20",
+            "direccion": "Calle Sol",
+            "tipoDocumento": "CEDULA",
+            "numeroDocumento": "1234567893",
+            "genero": "HOMBRE"
+        },
+        "perfil": {
+            "nickname": "carlosG88",
+            "objetivos": "mejorar la seguridad",
+            "fechaRegistro": "2025-02-13",
+            "imagen": "user.png"
+        }
+    },
+    {
+        "correoElectronico": "laura.mendez@email.com",
+        "contrasena": "laura1234",
+        "rol": {
+            "nombre": "CLIENTE"
+        },
+        "persona": {
+            "nombre": "Laura",
+            "apellido": "Méndez",
+            "telefonoCelular": "0912345682",
+            "fechaNacimiento": "1994-11-25",
+            "direccion": "Calle Mar",
+            "tipoDocumento": "CEDULA",
+            "numeroDocumento": "1234567894",
+            "genero": "MUJER"
+        },
+        "perfil": {
+            "nickname": "lauraM94",
+            "objetivos": "aprender nuevas habilidades",
+            "fechaRegistro": "2025-02-14",
+            "imagen": "user.png"
+        }
+    },
+    {
+        "correoElectronico": "jose.fernandez@email.com",
+        "contrasena": "jose1234",
+        "rol": {
+            "nombre": "ADMINISTRADOR"
+        },
+        "persona": {
+            "nombre": "José",
+            "apellido": "Fernández",
+            "telefonoCelular": "0912345683",
+            "fechaNacimiento": "1982-03-30",
+            "direccion": "Calle Río",
+            "tipoDocumento": "CEDULA",
+            "numeroDocumento": "1234567895",
+            "genero": "HOMBRE"
+        },
+        "perfil": {
+            "nickname": "joseF82",
+            "objetivos": "optimizar procesos",
+            "fechaRegistro": "2025-02-15",
+            "imagen": "user.png"
+        }
+    },
+    {
+        "correoElectronico": "marta.sanchez@email.com",
+        "contrasena": "marta1234",
+        "rol": {
+            "nombre": "CLIENTE"
+        },
+        "persona": {
+            "nombre": "Marta",
+            "apellido": "Sánchez",
+            "telefonoCelular": "0912345684",
+            "fechaNacimiento": "1996-12-05",
+            "direccion": "Calle Viento",
+            "tipoDocumento": "CEDULA",
+            "numeroDocumento": "1234567896",
+            "genero": "MUJER"
+        },
+        "perfil": {
+            "nickname": "martaS96",
+            "objetivos": "explorar nuevas oportunidades",
+            "fechaRegistro": "2025-02-16",
+            "imagen": "user.png"
+        }
+    },
+    {
+        "correoElectronico": "pablo.rodriguez@email.com",
+        "contrasena": "pablo1234",
+        "rol": {
+            "nombre": "ADMINISTRADOR"
+        },
+        "persona": {
+            "nombre": "Pablo",
+            "apellido": "Rodríguez",
+            "telefonoCelular": "0912345685",
+            "fechaNacimiento": "1989-01-10",
+            "direccion": "Calle Tierra",
+            "tipoDocumento": "CEDULA",
+            "numeroDocumento": "1234567897",
+            "genero": "HOMBRE"
+        },
+        "perfil": {
+            "nickname": "pabloR89",
+            "objetivos": "mejorar la experiencia del usuario",
+            "fechaRegistro": "2025-02-17",
+            "imagen": "user.png"
+        }
+    },
+    {
+        "correoElectronico": "sofia.garcia@email.com",
+        "contrasena": "sofia1234",
+        "rol": {
+            "nombre": "CLIENTE"
+        },
+        "persona": {
+            "nombre": "Sofía",
+            "apellido": "García",
+            "telefonoCelular": "0912345686",
+            "fechaNacimiento": "1993-04-15",
+            "direccion": "Calle Fuego",
+            "tipoDocumento": "CEDULA",
+            "numeroDocumento": "1234567898",
+            "genero": "MUJER"
+        },
+        "perfil": {
+            "nickname": "sofiaG93",
+            "objetivos": "aprender idiomas",
+            "fechaRegistro": "2025-02-18",
+            "imagen": "user.png"
+        }
+    },
+    {
+        "correoElectronico": "diego.morales@email.com",
+        "contrasena": "diego1234",
+        "rol": {
+            "nombre": "ADMINISTRADOR"
+        },
+        "persona": {
+            "nombre": "Diego",
+            "apellido": "Morales",
+            "telefonoCelular": "0912345687",
+            "fechaNacimiento": "1987-06-20",
+            "direccion": "Calle Agua",
+            "tipoDocumento": "CEDULA",
+            "numeroDocumento": "1234567899",
+            "genero": "HOMBRE"
+        },
+        "perfil": {
+            "nickname": "diegoM87",
+            "objetivos": "mejorar la infraestructura",
+            "fechaRegistro": "2025-02-19",
+            "imagen": "user.png"
+        }
+    },
+    {
+        "correoElectronico": "elena.ruiz@email.com",
+        "contrasena": "elena1234",
+        "rol": {
+            "nombre": "CLIENTE"
+        },
+        "persona": {
+            "nombre": "Elena",
+            "apellido": "Ruiz",
+            "telefonoCelular": "0912345690",
+            "fechaNacimiento": "1995-08-25",
+            "direccion": "Calle Aire",
+            "tipoDocumento": "CEDULA",
+            "numeroDocumento": "1234567800",
+            "genero": "MUJER"
+        },
+        "perfil": {
+            "nickname": "elenaR95",
+            "objetivos": "viajar por el mundo",
+            "fechaRegistro": "2025-02-20",
+            "imagen": "user.png"
+        }
+    },
+    {
+        "correoElectronico": "fernando.torres@email.com",
+        "contrasena": "fernando1234",
+        "rol": {
+            "nombre": "ADMINISTRADOR"
+        },
+        "persona": {
+            "nombre": "Fernando",
+            "apellido": "Torres",
+            "telefonoCelular": "0912345691",
+            "fechaNacimiento": "1983-10-30",
+            "direccion": "Calle Luz",
+            "tipoDocumento": "CEDULA",
+            "numeroDocumento": "1234567801",
+            "genero": "HOMBRE"
+        },
+        "perfil": {
+            "nickname": "fernandoT83",
+            "objetivos": "gestionar proyectos",
+            "fechaRegistro": "2025-02-21",
+            "imagen": "user.png"
+        }
+    },
+    {
+        "correoElectronico": "gloria.martinez@email.com",
+        "contrasena": "gloria1234",
+        "rol": {
+            "nombre": "CLIENTE"
+        },
+        "persona": {
+            "nombre": "Gloria",
+            "apellido": "Martínez",
+            "telefonoCelular": "0912345692",
+            "fechaNacimiento": "1997-12-15",
+            "direccion": "Calle Estrella",
+            "tipoDocumento": "CEDULA",
+            "numeroDocumento": "1234567802",
+            "genero": "MUJER"
+        },
+        "perfil": {
+            "nickname": "gloriaM97",
+            "objetivos": "aprender a cocinar",
+            "fechaRegistro": "2025-02-22",
+            "imagen": "user.png"
+        }
+    },
+    {
+        "correoElectronico": "hector.lopez@email.com",
+        "contrasena": "hector1234",
+        "rol": {
+            "nombre": "ADMINISTRADOR"
+        },
+        "persona": {
+            "nombre": "Héctor",
+            "apellido": "López",
+            "telefonoCelular": "0912345693",
+            "fechaNacimiento": "1986-02-05",
+            "direccion": "Calle Luna",
+            "tipoDocumento": "CEDULA",
+            "numeroDocumento": "1234567803",
+            "genero": "HOMBRE"
+        },
+        "perfil": {
+            "nickname": "hectorL86",
+            "objetivos": "mejorar la eficiencia",
+            "fechaRegistro": "2025-02-23",
+            "imagen": "user.png"
+        }
+    },
+    {
+        "correoElectronico": "irene.gonzalez@email.com",
+        "contrasena": "irene1234",
+        "rol": {
+            "nombre": "CLIENTE"
+        },
+        "persona": {
+            "nombre": "Irene",
+            "apellido": "González",
+            "telefonoCelular": "0912345694",
+            "fechaNacimiento": "1992-04-10",
+            "direccion": "Calle Sol",
+            "tipoDocumento": "CEDULA",
+            "numeroDocumento": "1234567804",
+            "genero": "MUJER"
+        },
+        "perfil": {
+            "nickname": "ireneG92",
+            "objetivos": "aprender a programar",
+            "fechaRegistro": "2025-02-24",
+            "imagen": "user.png"
+        }
+    },
+    {
+        "correoElectronico": "javier.moreno@email.com",
+        "contrasena": "javier1234",
+        "rol": {
+            "nombre": "ADMINISTRADOR"
+        },
+        "persona": {
+            "nombre": "Javier",
+            "apellido": "Moreno",
+            "telefonoCelular": "0912345695",
+            "fechaNacimiento": "1984-06-15",
+            "direccion": "Calle Mar",
+            "tipoDocumento": "CEDULA",
+            "numeroDocumento": "1234567805",
+            "genero": "HOMBRE"
+        },
+        "perfil": {
+            "nickname": "javierM84",
+            "objetivos": "mejorar la seguridad",
+            "fechaRegistro": "2025-02-25",
+            "imagen": "user.png"
+        }
+    },
+    {
+        "correoElectronico": "karla.fernandez@email.com",
+        "contrasena": "karla1234",
+        "rol": {
+            "nombre": "CLIENTE"
+        },
+        "persona": {
+            "nombre": "Karla",
+            "apellido": "Fernández",
+            "telefonoCelular": "0912345696",
+            "fechaNacimiento": "1990-08-20",
+            "direccion": "Calle Río",
+            "tipoDocumento": "CEDULA",
+            "numeroDocumento": "1234567806",
+            "genero": "MUJER"
+        },
+        "perfil": {
+            "nickname": "karlaF90",
+            "objetivos": "explorar nuevas oportunidades",
+            "fechaRegistro": "2025-02-26",
+            "imagen": "user.png"
+        }
+    },
+    {
+        "correoElectronico": "luis.rodriguez@email.com",
+        "contrasena": "luis1234",
+        "rol": {
+            "nombre": "ADMINISTRADOR"
+        },
+        "persona": {
+            "nombre": "Luis",
+            "apellido": "Rodríguez",
+            "telefonoCelular": "0912345697",
+            "fechaNacimiento": "1981-10-25",
+            "direccion": "Calle Viento",
+            "tipoDocumento": "CEDULA",
+            "numeroDocumento": "1234567807",
+            "genero": "HOMBRE"
+        },
+        "perfil": {
+            "nickname": "luisR81",
+            "objetivos": "gestionar la plataforma",
+            "fechaRegistro": "2025-02-27",
+            "imagen": "user.png"
+        }
+    },
+    {
+        "correoElectronico": "maria.garcia@email.com",
+        "contrasena": "maria1234",
+        "rol": {
+            "nombre": "CLIENTE"
+        },
+        "persona": {
+            "nombre": "María",
+            "apellido": "García",
+            "telefonoCelular": "0912345698",
+            "fechaNacimiento": "1993-12-30",
+            "direccion": "Calle Tierra",
+            "tipoDocumento": "CEDULA",
+            "numeroDocumento": "1234567808",
+            "genero": "MUJER"
+        },
+        "perfil": {
+            "nickname": "mariaG93",
+            "objetivos": "aprender nuevas habilidades",
+            "fechaRegistro": "2025-02-28",
+            "imagen": "user.png"
+        }
+    },
+    {
+        "correoElectronico": "nicolas.martinez@email.com",
+        "contrasena": "nicolas1234",
+        "rol": {
+            "nombre": "ADMINISTRADOR"
+        },
+        "persona": {
+            "nombre": "Nicolás",
+            "apellido": "Martínez",
+            "telefonoCelular": "0912345699",
+            "fechaNacimiento": "1980-01-05",
+            "direccion": "Calle Fuego",
+            "tipoDocumento": "CEDULA",
+            "numeroDocumento": "1234567809",
+            "genero": "HOMBRE"
+        },
+        "perfil": {
+            "nickname": "nicolasM80",
+            "objetivos": "optimizar procesos",
+            "fechaRegistro": "2025-03-01",
+            "imagen": "user.png"
+        }
+    },
+    {
+        "correoElectronico": "olga.lopez@email.com",
+        "contrasena": "olga1234",
+        "rol": {
+            "nombre": "CLIENTE"
+        },
+        "persona": {
+            "nombre": "Olga",
+            "apellido": "López",
+            "telefonoCelular": "0912345700",
+            "fechaNacimiento": "1991-03-10",
+            "direccion": "Calle Agua",
+            "tipoDocumento": "CEDULA",
+            "numeroDocumento": "1234567810",
+            "genero": "MUJER"
+        },
+        "perfil": {
+            "nickname": "olgaL91",
+            "objetivos": "mejorar la experiencia del usuario",
+            "fechaRegistro": "2025-03-02",
+            "imagen": "user.png"
+        }
+    },
+    {
+        "correoElectronico": "pedro.morales@email.com",
+        "contrasena": "pedro1234",
+        "rol": {
+            "nombre": "ADMINISTRADOR"
+        },
+        "persona": {
+            "nombre": "Pedro",
+            "apellido": "Morales",
+            "telefonoCelular": "0912345701",
+            "fechaNacimiento": "1982-05-15",
+            "direccion": "Calle Aire",
+            "tipoDocumento": "CEDULA",
+            "numeroDocumento": "1234567811",
+            "genero": "HOMBRE"
+        },
+        "perfil": {
+            "nickname": "pedroM82",
+            "objetivos": "mejorar la infraestructura",
+            "fechaRegistro": "2025-03-03",
+            "imagen": "user.png"
+        }
+    },
+    {
+        "correoElectronico": "quique.ruiz@email.com",
+        "contrasena": "quique1234",
+        "rol": {
+            "nombre": "CLIENTE"
+        },
+        "persona": {
+            "nombre": "Quique",
+            "apellido": "Ruiz",
+            "telefonoCelular": "0912345702",
+            "fechaNacimiento": "1994-07-20",
+            "direccion": "Calle Luz",
+            "tipoDocumento": "CEDULA",
+            "numeroDocumento": "1234567812",
+            "genero": "HOMBRE"
+        },
+        "perfil": {
+            "nickname": "quiqueR94",
+            "objetivos": "viajar por el mundo",
+            "fechaRegistro": "2025-03-04",
+            "imagen": "user.png"
+        }
+    }
+]

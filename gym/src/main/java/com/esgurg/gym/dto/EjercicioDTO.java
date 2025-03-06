@@ -49,9 +49,9 @@ public class EjercicioDTO {
             ej.setDescripcion(this.descripcion);
         if (this.videoUrl != null)
             ej.setVideoUrl(this.videoUrl);
-        if (this.minTiempoDescanso != null)
+        if (this.minTiempoDescanso != 0)
             ej.setMinTiempoDescanso(this.minTiempoDescanso);
-        if (this.maxTiempoDescanso != null)
+        if (this.maxTiempoDescanso != 0)
             ej.setMaxTiempoDescanso(this.maxTiempoDescanso);
         if (this.minNroSeries != 0)
             ej.setMinNroSeries(this.minNroSeries);
