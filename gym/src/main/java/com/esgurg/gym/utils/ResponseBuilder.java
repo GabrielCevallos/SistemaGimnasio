@@ -42,8 +42,8 @@ public class ResponseBuilder {
         return this;
     }
 
-    public ResponseBuilder withInfo(String info) {
-        safeAdd("info", info);
+    public ResponseBuilder withOperationStatus(String operationStatus) {
+        safeAdd("operationStatus", operationStatus);
         return this;
     }
 

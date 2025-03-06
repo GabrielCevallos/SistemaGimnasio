@@ -24,7 +24,7 @@ public class Usuario {
     @Column(nullable = false)
     private Boolean activo = true;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "rol_id")
     private Rol rol;
 

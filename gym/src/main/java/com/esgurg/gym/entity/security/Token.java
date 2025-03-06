@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Builder.Default;
 
 @Data
 @Builder
@@ -24,10 +25,13 @@ public class Token {
 
     public String token;
 
+    @Default
     public TokenType tokenType = TokenType.BEARER;
 
+    @Default
     public Boolean revoked = false;
 
+    @Default
     public Boolean expired = false;
 
     @ManyToOne

@@ -40,7 +40,7 @@ public class SecurityConfig {
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .logout(logout ->
-                        logout.logoutUrl("auth/logout")
+                        logout.logoutUrl("/logout")
                                 .addLogoutHandler((request, response, authentication) -> {
                                     final var authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
                                     logout(authHeader);

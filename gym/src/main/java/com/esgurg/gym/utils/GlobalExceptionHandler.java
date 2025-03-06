@@ -1,4 +1,4 @@
-package com.esgurg.gym.utils;
+/*package com.esgurg.gym.utils;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,5 +23,5 @@ public class GlobalExceptionHandler {
         });
         return new ResponseEntity<>(errores, HttpStatus.BAD_REQUEST);
     }
-}
+}*/
 

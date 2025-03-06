@@ -17,7 +17,7 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UsuarioDTO {
-    private Long id;
+    private Long usuarioId;
 
     @NotNull(message = "El correo electrónico es requerido")
     @Email(message = "El correo electrónico no es válido")
@@ -41,16 +41,25 @@ public class UsuarioDTO {
 
     public Map<String, Object> essentialInfo() {
         return Map.of(
-                "id", this.id,
+                "id", this.usuarioId,
                 "correoElectronico", this.correoElectronico,
                 "activo", this.activo,
                 "rol", this.rol.getNombre()
         );
     }
 
+    public UsuarioDTO(Usuario usuario) {
+        this.usuarioId = usuario.getUsuarioId();
+        this.correoElectronico = usuario.getCorreoElectronico();
+        this.activo = usuario.getActivo();
+        this.rol = usuario.getRol();
+        this.persona = usuario.getPersona();
+        this.perfil = usuario.getPerfil();
+    }
+
     public Usuario setValuesTo(Usuario usuario) {
-        if (this.id != null)
-            usuario.setUsuarioId(this.id);
+        if (this.usuarioId != null)
+            usuario.setUsuarioId(this.usuarioId);
         if (this.correoElectronico != null)
             usuario.setCorreoElectronico(this.correoElectronico);
         if (this.contrasena != null)
@@ -61,8 +70,8 @@ public class UsuarioDTO {
             usuario.setRol(this.rol);
         if (this.persona != null)
             usuario.setPersona(this.persona);
-/*        if (this.perfil != null)
-            usuario.setPerfil(this.perfil);*/
+       if (this.perfil != null)
+            usuario.setPerfil(this.perfil);
         return usuario;
     }
 

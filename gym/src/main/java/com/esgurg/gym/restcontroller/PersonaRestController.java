@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import org.springframework.validation.annotation.Validated;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -23,6 +23,7 @@ public class PersonaRestController {
 
     //ENDPOINTS
     @GetMapping
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public ResponseEntity<Map<String, Object>> getPersonaList() {
         return new ResponseBuilder().responseWithOperation(
                 // Try this
@@ -49,7 +50,7 @@ public class PersonaRestController {
         );
     }
 
-    @GetMapping("/find/{id}")
+    @GetMapping("/find/id/{id}")
     public ResponseEntity<Map<String, Object>> findPersona(@PathVariable Long id) {
         return new ResponseBuilder().responseWithOperation(
                 () -> {
