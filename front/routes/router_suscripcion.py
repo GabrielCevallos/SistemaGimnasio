@@ -17,7 +17,6 @@ def suscripcion_update(id: int, headers: dict, auth_user: AuthUser) -> str:
         auth_user=auth_user,
     )
 
-
 @router.route('/suscripcion/update/send/', methods=['POST'])
 @login_required(roles = ['ADMINISTRADOR'])
 def update_suscripcion_send(headers,usr):
