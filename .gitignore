@@ -5,3 +5,5 @@ archivo.txt
 front/__pycache__/
 front/routes/__pycache__/
 front/routes/utils/__pycache__/
+front/routes/utils/test_back.py
+
