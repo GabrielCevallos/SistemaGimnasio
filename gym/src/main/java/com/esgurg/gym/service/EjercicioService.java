@@ -33,8 +33,12 @@ public class EjercicioService {
         return ejercicioRepository.findAll();
     }
 
-    public Optional<Ejercicio> findByNombre(String nombre) {
-        return Optional.of(ejercicioRepository.findByNombreEjercicio(nombre).orElseThrow(() -> new RuntimeException("Ejercicio no encontrado")));
+    public List<Ejercicio> findByNombre(String nombre) {
+        return ejercicioRepository.findByNombreEjercicioContainingIgnoreCase(nombre);
+    }
+
+    public Optional<Ejercicio> atomicSearch(String nombre) {
+        return ejercicioRepository.findByNombreEjercicio(nombre);
     }
 
     public void delete(Long id) {

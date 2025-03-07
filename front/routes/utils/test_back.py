@@ -7,11 +7,11 @@ LOGIN_URL = 'http://localhost:8080/auth/login'
 USERS_LIST_URL = 'http://localhost:8080/api/usuario/find/role/cliente'
 
 #ruta absoluta al archivo json
-json_file = "C:/Users/gabri/OneDrive/Escritorio/GABRIEL/UNIVERSIDAD/SISTEMA GIMNASIO/front/users.json"
+json_file = "C:\\Users\\gabri\\OneDrive\\Escritorio\\GABRIEL\\UNIVERSIDAD\\SISTEMA GIMNASIO\\front\\users.json"
 
 #leer un archivo con un array de objetos json
 def read_json_file(file):
-    with open(file) as f:
+    with open(file, encoding="utf-8") as f:
         return json.load(f)
 
 users = read_json_file(json_file)    

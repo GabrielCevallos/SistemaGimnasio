@@ -1,4 +1,7 @@
 front/virt/
 front/.vscode/
-
+front/virtual/
 archivo.txt
+front/__pycache__/
+front/routes/__pycache__/
+front/routes/utils/__pycache__/

@@ -31,6 +31,20 @@ public class EjercicioRestController {
         );
     }
 
+    @PatchMapping
+    public ResponseEntity<Map<String, Object>> updateEjercicio(@RequestBody EjercicioDTO ejercicio) {
+        return new ResponseBuilder().responseWithOperation(
+                () -> {
+                    ejercicioService.update(ejercicio);
+                    return ejercicio.getEssentialInfo();
+                },
+                "Ejercicio actualizado",
+                HttpStatus.OK,
+                "Error al intentar actualizar el ejercicio",
+                HttpStatus.INTERNAL_SERVER_ERROR
+        );
+    }
+
     @GetMapping
     public ResponseEntity<Map<String, Object>> getEjercicioList() {
         return new ResponseBuilder().responseWithOperation(
@@ -45,18 +59,25 @@ public class EjercicioRestController {
     @GetMapping("/find/{nombre}")
     public ResponseEntity<Map<String, Object>> findEjercicio(@PathVariable String nombre) {
         return new ResponseBuilder().responseWithOperation(
-                () -> {
-                    EjercicioDTO ejercicio = new EjercicioDTO(
-                            ejercicioService.findByNombre(nombre).orElseThrow(() -> new RuntimeException("Ejercicio no encontrado"))
-                    );
-                    return ejercicio.getEssentialInfo();
-                },
+                () -> ejercicioService.findByNombre(nombre),
                 "Ejercicio encontrado",
                 HttpStatus.OK,
                 "Error al intentar encontrar el ejercicio",
                 HttpStatus.INTERNAL_SERVER_ERROR
         );
     }
+
+    @GetMapping("/search/{nombre}")
+    public ResponseEntity<Map<String, Object>> searchEjercicio(@PathVariable String nombre) {
+        return new ResponseBuilder().responseWithOperation(
+                () -> ejercicioService.atomicSearch(nombre),
+                "Ejercicio encontrado",
+                HttpStatus.OK,
+                "Error al intentar encontrar el ejercicio",
+                HttpStatus.INTERNAL_SERVER_ERROR
+        );
+    }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, Object>> deleteEjercicio(@PathVariable Long id) {
